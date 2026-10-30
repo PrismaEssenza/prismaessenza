@@ -82,6 +82,25 @@
     .resultado { margin-top: 18px; padding: 18px; background: #edf1e9; border-radius: 15px; display: none; }
     .resultado.visivel { display: block; }
     .resultado strong { color: var(--verde-escuro); }
+
+    .brand-board { margin-top: 22px; border: 1px solid var(--borda); border-radius: 20px; overflow: hidden; background: #fffdfb; box-shadow: var(--sombra); }
+    .brand-hero { padding: 36px 24px; text-align: center; background: linear-gradient(135deg,var(--brand-bg,#f1eaf5),#fffdfb 58%,var(--brand-soft,#e6eadf)); }
+    .brand-mark { width: 78px; height: 78px; margin: 0 auto 12px; border: 1px solid var(--brand-accent,#8a6fa1); border-radius: 50%; display: grid; place-items: center; font: 2.5rem Georgia,serif; color: var(--brand-accent,#8a6fa1); }
+    .brand-hero h3 { font: 500 clamp(2rem,5vw,3.3rem) Georgia,serif; margin: 8px 0; color: var(--brand-ink,#433650); overflow-wrap: anywhere; }
+    .brand-hero p { margin: 0; color: var(--brand-accent,#8a6fa1); letter-spacing: .14em; text-transform: uppercase; font-size: .75rem; }
+    .brand-details { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 20px; }
+    .brand-details h4 { margin: 0 0 10px; font: 500 1.2rem Georgia,serif; }
+    .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+    .swatch { flex: 1; min-width: 76px; }
+    .swatch-color { height: 55px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); margin-bottom: 6px; }
+    .swatch small { display: block; color: var(--suave); font-size: .78rem; }
+    .brand-type { border-radius: 12px; background: #f8f5f0; padding: 14px; }
+    .brand-type .sample { font: 2rem Georgia,serif; color: var(--brand-ink,#433650); }
+    .brand-summary { grid-column: 1/-1; background: #f8f5f0; border-radius: 12px; padding: 16px; }
+    .brand-summary p { margin: 7px 0; }
+    .brand-download { margin: 0 20px 20px; }
+    @media(max-width:600px) { .brand-details { grid-template-columns: 1fr; } .brand-summary { grid-column: auto; } }
+
     .resumo-financeiro { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 20px 0; }
     .resumo-item { background: #f4f1e9; border-radius: 14px; padding: 15px; }
     .resumo-item span { display: block; color: var(--suave); font-size: .82rem; }
@@ -104,7 +123,26 @@
       .nav { align-items: flex-start; padding: 15px 0; flex-direction: column; }
       .cards { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
-      .resumo-financeiro { grid-template-columns: 1fr; }
+  
+    .brand-board { margin-top: 22px; border: 1px solid var(--borda); border-radius: 20px; overflow: hidden; background: #fffdfb; box-shadow: var(--sombra); }
+    .brand-hero { padding: 36px 24px; text-align: center; background: linear-gradient(135deg,var(--brand-bg,#f1eaf5),#fffdfb 58%,var(--brand-soft,#e6eadf)); }
+    .brand-mark { width: 78px; height: 78px; margin: 0 auto 12px; border: 1px solid var(--brand-accent,#8a6fa1); border-radius: 50%; display: grid; place-items: center; font: 2.5rem Georgia,serif; color: var(--brand-accent,#8a6fa1); }
+    .brand-hero h3 { font: 500 clamp(2rem,5vw,3.3rem) Georgia,serif; margin: 8px 0; color: var(--brand-ink,#433650); overflow-wrap: anywhere; }
+    .brand-hero p { margin: 0; color: var(--brand-accent,#8a6fa1); letter-spacing: .14em; text-transform: uppercase; font-size: .75rem; }
+    .brand-details { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 20px; }
+    .brand-details h4 { margin: 0 0 10px; font: 500 1.2rem Georgia,serif; }
+    .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+    .swatch { flex: 1; min-width: 76px; }
+    .swatch-color { height: 55px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); margin-bottom: 6px; }
+    .swatch small { display: block; color: var(--suave); font-size: .78rem; }
+    .brand-type { border-radius: 12px; background: #f8f5f0; padding: 14px; }
+    .brand-type .sample { font: 2rem Georgia,serif; color: var(--brand-ink,#433650); }
+    .brand-summary { grid-column: 1/-1; background: #f8f5f0; border-radius: 12px; padding: 16px; }
+    .brand-summary p { margin: 7px 0; }
+    .brand-download { margin: 0 20px 20px; }
+    @media(max-width:600px) { .brand-details { grid-template-columns: 1fr; } .brand-summary { grid-column: auto; } }
+
+    .resumo-financeiro { grid-template-columns: 1fr; }
       .linha-lista { align-items: flex-start; }
     }
   </style>
@@ -374,8 +412,25 @@
       function gerarResumoMarca() {
         const dados = dadosMarca();
         const resultado = document.getElementById("resultado-marca");
-        resultado.innerHTML = `<h3>${escapar(dados["marca-nome"] || "Minha marca")}</h3><p><strong>Para quem:</strong> ${escapar(dados["marca-publico"] || "Público a definir")}</p><p><strong>Propósito:</strong> ${escapar(dados["marca-proposito"] || "Propósito a definir")}</p><p><strong>Personalidade:</strong> ${escapar(dados["marca-personalidade"] || "A definir")}</p><p><strong>Cores:</strong> ${escapar(dados["marca-cores"] || "A definir")}</p>`;
+        const nomesCores = (dados["marca-cores"] || "creme, verde-sálvia e dourado").split(/,| e /i).map(c => c.trim()).filter(Boolean).slice(0, 4);
+        const coresBase = {"lilás":"#d8c4e8","lilas":"#d8c4e8","roxo":"#80639a","lavanda":"#d8c4e8","branco":"#fffdf9","creme":"#f3ecdf","bege":"#e6d7c2","verde-sálvia":"#b7c9a8","verde-salvia":"#b7c9a8","verde":"#78916f","rosa":"#e8c7ce","rosa-claro":"#f0dce1","azul":"#b9d4e8","azul-claro":"#d7e6f0","preto":"#292923","cinza":"#c9c9c4","dourado":"#c5a46d","amarelo":"#f1df91","terracota":"#c77d62","marrom":"#9a785f"};
+        const cores = nomesCores.map((nome, i) => ({nome, hex: coresBase[nome.toLowerCase()] || ["#d8c4e8", "#fffdf9", "#b7c9a8", "#c5a46d"][i % 4]}));
+        const acento = cores[0]?.hex || "#8a6fa1";
+        const fundo = cores[0]?.hex || "#f1eaf5";
+        const suave = cores[2]?.hex || "#e6eadf";
+        const simbolo = /natural|sustentável/i.test(dados["marca-personalidade"]) ? "❧" : /ousada|criativa/i.test(dados["marca-personalidade"]) ? "✳" : /divertida/i.test(dados["marca-personalidade"]) ? "✦" : "❋";
+        resultado.innerHTML = `<div class="brand-board" id="brand-board" style="--brand-accent:${acento};--brand-bg:${fundo};--brand-soft:${suave};--brand-ink:#433650">
+          <div class="brand-hero"><div class="brand-mark">${simbolo}</div><h3>${escapar(dados["marca-nome"] || "Minha marca")}</h3><p>${escapar(dados["marca-personalidade"] || "Identidade da marca")}</p></div>
+          <div class="brand-details">
+            <div><h4>Paleta de cores</h4><div class="swatches">${cores.map(c=>`<div class="swatch"><div class="swatch-color" style="background:${c.hex}"></div><strong>${escapar(c.nome)}</strong><small>${c.hex.toUpperCase()}</small></div>`).join("")}</div></div>
+            <div><h4>Tipografia sugerida</h4><div class="brand-type"><div class="sample">Aa Bb Cc</div><p>Uma fonte serifada para títulos elegantes e uma fonte simples para textos e informações.</p></div></div>
+            <div class="brand-summary"><h4>Essência da marca</h4><p><strong>Para quem:</strong> ${escapar(dados["marca-publico"] || "Público a definir")}</p><p><strong>Propósito:</strong> ${escapar(dados["marca-proposito"] || "Propósito a definir")}</p><p><strong>Personalidade:</strong> ${escapar(dados["marca-personalidade"] || "A definir")}</p><p><strong>Cores escolhidas:</strong> ${escapar(dados["marca-cores"] || "A definir")}</p></div>
+          </div><button type="button" class="brand-download" id="baixar-identidade">Baixar apresentação da marca</button></div>`;
         resultado.classList.add("visivel");
+        document.getElementById("baixar-identidade").addEventListener("click", () => {
+          const conteudo = `<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapar(dados["marca-nome"] || "Identidade da marca")}</title><body style="margin:0;padding:30px;background:#f8f5ef;font-family:Arial,sans-serif;color:#292923"><main style="max-width:760px;margin:auto;background:#fffdf9;border-radius:20px;overflow:hidden"><header style="text-align:center;padding:55px 20px;background:linear-gradient(135deg,${fundo},#fffdfb,${suave})"><div style="font:50px Georgia;color:${acento}">${simbolo}</div><h1 style="font:48px Georgia;color:#433650">${escapar(dados["marca-nome"] || "Minha marca")}</h1><p>${escapar(dados["marca-personalidade"] || "Identidade da marca")}</p></header><section style="padding:25px"><h2>Paleta de cores</h2><div style="display:flex;gap:12px;flex-wrap:wrap">${cores.map(c=>`<div style="min-width:110px;flex:1"><div style="height:65px;border-radius:10px;background:${c.hex}"></div><b>${escapar(c.nome)}</b><p>${c.hex.toUpperCase()}</p></div>`).join("")}</div><h2>Essência da marca</h2><p><b>Para quem:</b> ${escapar(dados["marca-publico"] || "Público a definir")}</p><p><b>Propósito:</b> ${escapar(dados["marca-proposito"] || "Propósito a definir")}</p><p><b>Personalidade:</b> ${escapar(dados["marca-personalidade"] || "A definir")}</p><p><b>Cores:</b> ${escapar(dados["marca-cores"] || "A definir")}</p><hr><p style="font:italic 18px Georgia;text-align:center">Uma marca, uma essência, uma história.</p></section></main></body></html>`;
+          const arquivo = new Blob([conteudo], {type:"text/html;charset=utf-8"}); const url = URL.createObjectURL(arquivo); const link = document.createElement("a"); link.href=url; link.download=(dados["marca-nome"] || "identidade-da-marca").trim().replace(/[^a-z0-9]+/gi,"-").toLowerCase()+"-identidade.html"; link.click(); URL.revokeObjectURL(url);
+        });
       }
       formMarca.addEventListener("submit", evento => { evento.preventDefault(); gerarResumoMarca(); });
       document.getElementById("salvar-marca").addEventListener("click", () => {
