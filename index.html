@@ -1,0 +1,544 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Prisma Essenza: ferramentas gratuitas para ajudar pequenos empreendedores a organizar, valorizar e divulgar seus negócios.">
+  <title>Prisma Essenza | Seu negócio, seu crescimento</title>
+
+  <style>
+    :root {
+      --creme: #FAF6EF;
+      --verde: #8B9B83;
+      --verde-escuro: #52664F;
+      --rosa: #D9AAA8;
+      --terracota: #BD795F;
+      --marrom: #46372F;
+      --branco: #FFFFFF;
+      --borda: #E9E0D5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--creme);
+      color: var(--marrom);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 7%;
+      background: var(--creme);
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: var(--terracota);
+    }
+
+    .menu {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .menu a {
+      color: var(--marrom);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .menu a:hover {
+      color: var(--terracota);
+    }
+
+    .hero {
+      padding: 90px 7%;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      align-items: center;
+      gap: 50px;
+      background:
+        radial-gradient(circle at 90% 20%, #E9D7C8 0, transparent 28%),
+        var(--creme);
+    }
+
+    .etiqueta {
+      display: inline-block;
+      color: var(--verde-escuro);
+      background: #E6EBDD;
+      padding: 7px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: normal;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(40px, 5vw, 66px);
+      margin-bottom: 22px;
+      max-width: 700px;
+    }
+
+    h1 span {
+      color: var(--terracota);
+      font-style: italic;
+    }
+
+    .hero p {
+      max-width: 600px;
+      font-size: 17px;
+      margin-bottom: 28px;
+      color: #6E6056;
+    }
+
+    .botao {
+      display: inline-block;
+      border: none;
+      border-radius: 7px;
+      padding: 13px 21px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .botao-principal {
+      background: var(--verde-escuro);
+      color: var(--branco);
+    }
+
+    .botao-principal:hover {
+      background: #3F523C;
+      transform: translateY(-2px);
+    }
+
+    .botao-secundario {
+      background: transparent;
+      color: var(--marrom);
+      border: 1px solid var(--borda);
+      margin-left: 8px;
+    }
+
+    .ilustracao {
+      min-height: 330px;
+      background: #E8D8C8;
+      border-radius: 48% 48% 12px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flor {
+      font-size: 105px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .ilustracao p {
+      font-family: Georgia, serif;
+      font-size: 23px;
+      color: var(--marrom);
+      margin: 0;
+    }
+
+    .secao {
+      padding: 75px 7%;
+    }
+
+    .cabecalho-secao {
+      max-width: 650px;
+      margin-bottom: 35px;
+    }
+
+    .cabecalho-secao h2 {
+      font-size: clamp(30px, 4vw, 43px);
+      margin-bottom: 13px;
+    }
+
+    .cabecalho-secao p {
+      color: #75675C;
+    }
+
+    .ferramentas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .cartao {
+      background: var(--branco);
+      padding: 27px;
+      border: 1px solid var(--borda);
+      border-radius: 12px;
+      transition: 0.2s;
+    }
+
+    .cartao:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px #46372F0D;
+    }
+
+    .icone {
+      font-size: 31px;
+      margin-bottom: 13px;
+    }
+
+    .cartao h3 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
+
+    .cartao p {
+      color: #75675C;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .cartao button {
+      background: transparent;
+      border: none;
+      color: var(--verde-escuro);
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .destaque {
+      background: #E7EBDD;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .destaque h2 {
+      font-size: clamp(30px, 4vw, 43px);
+      margin-bottom: 15px;
+    }
+
+    .destaque p {
+      color: #5E6857;
+      margin-bottom: 20px;
+    }
+
+    .lista {
+      list-style: none;
+    }
+
+    .lista li {
+      margin: 12px 0;
+    }
+
+    .lista li::before {
+      content: "✓ ";
+      color: var(--verde-escuro);
+      font-weight: bold;
+    }
+
+    .frase {
+      padding: 55px 7%;
+      text-align: center;
+      background: #EBD6D2;
+    }
+
+    .frase h2 {
+      font-size: clamp(27px, 4vw, 40px);
+      max-width: 800px;
+      margin: 0 auto 15px;
+    }
+
+    .frase p {
+      color: #765D56;
+    }
+
+    footer {
+      background: var(--marrom);
+      color: var(--creme);
+      padding: 35px 7%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: #E2D8CD;
+    }
+
+    .aviso {
+      display: none;
+      background: #FFF6E8;
+      border: 1px solid #E9D2AF;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      .hero, .destaque {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 55px;
+      }
+
+      .ilustracao {
+        min-height: 260px;
+      }
+
+      .ferramentas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .menu {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .topo {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 5%;
+      }
+
+      .logo {
+        font-size: 22px;
+      }
+
+      .menu {
+        gap: 10px 16px;
+      }
+
+      .hero, .secao {
+        padding: 45px 5%;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .botao-secundario {
+        margin: 10px 0 0;
+      }
+
+      .ferramentas {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 28px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topo">
+    <div class="logo">PRISMA <span>ESSENZA</span></div>
+
+    <nav class="menu" aria-label="Navegação principal">
+      <a href="#inicio">Início</a>
+      <a href="#ferramentas">Ferramentas</a>
+      <a href="#marca">Identidade visual</a>
+      <a href="#sobre">Sobre o projeto</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div>
+        <span class="etiqueta">Um espaço para o seu negócio</span>
+
+        <h1>Sua ideia merece <span>crescer.</span></h1>
+
+        <p>
+          Organize suas finanças, desenvolva a identidade visual da sua marca
+          e descubra novas maneiras de divulgar seus produtos.
+          Tudo em um só lugar, de forma gratuita e simples de usar.
+        </p>
+
+        <a href="#ferramentas" class="botao botao-principal">
+          Conhecer ferramentas
+        </a>
+
+        <a href="#sobre" class="botao botao-secundario">
+          Conhecer o projeto
+        </a>
+      </div>
+
+      <div class="ilustracao">
+        <div>
+          <span class="flor">✿</span>
+          <p>Sua essência,<br>seu negócio,<br>seu crescimento.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao" id="ferramentas">
+      <div class="cabecalho-secao">
+        <span class="etiqueta">Tudo começa com uma ideia</span>
+        <h2>Ferramentas para fazer acontecer</h2>
+        <p>
+          Recursos pensados para facilitar a rotina de quem empreende,
+          desde os primeiros passos até o crescimento do negócio.
+        </p>
+      </div>
+
+      <div class="ferramentas">
+        <article class="cartao">
+          <div class="icone">🎨</div>
+          <h3>Studio de Marca</h3>
+          <p>Crie uma identidade visual com cores, fontes e elementos que representem sua marca.</p>
+          <button onclick="mostrarAviso('marca')">Explorar ferramenta →</button>
+        </article>
+
+        <article class="cartao">
+          <div class="icone">🧮</div>
+          <h3>Calculadora de Preços</h3>
+          <p>Descubra o custo por produto e estime um preço de venda mais consciente.</p>
+          <button onclick="mostrarAviso('precos')">Explorar ferramenta →</button>
+        </article>
+
+        <article class="cartao">
+          <div class="icone">📦</div>
+          <h3>Meus Produtos</h3>
+          <p>Organize os produtos, seus custos e os preços praticados no seu negócio.</p>
+          <button onclick="mostrarAviso('produtos')">Explorar ferramenta →</button>
+        </article>
+
+        <article class="cartao">
+          <div class="icone">💰</div>
+          <h3>Controle Financeiro</h3>
+          <p>Acompanhe entradas, despesas e a movimentação financeira do negócio.</p>
+          <button onclick="mostrarAviso('financeiro')">Explorar ferramenta →</button>
+        </article>
+
+        <article class="cartao">
+          <div class="icone">📊</div>
+          <h3>Visão do Negócio</h3>
+          <p>Visualize indicadores para entender melhor os resultados e planejar os próximos passos.</p>
+          <button onclick="mostrarAviso('resultados')">Explorar ferramenta →</button>
+        </article>
+
+        <article class="cartao">
+          <div class="icone">📱</div>
+          <h3>Divulgue sua Marca</h3>
+          <p>Encontre ideias de conteúdo e crie textos para divulgar seus produtos nas redes sociais.</p>
+          <button onclick="mostrarAviso('divulgacao')">Explorar ferramenta →</button>
+        </article>
+      </div>
+
+      <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="secao destaque" id="marca">
+      <div>
+        <span class="etiqueta">Sua marca, do seu jeito</span>
+        <h2>Você tem a ideia. Vamos dar forma a ela.</h2>
+        <p>
+          Uma identidade visual ajuda seu negócio a transmitir sua personalidade
+          e se apresentar ao público de maneira mais consistente.
+        </p>
+        <button class="botao botao-principal" onclick="mostrarAviso('marca')">
+          Conhecer o Studio de Marca
+        </button>
+      </div>
+
+      <ul class="lista">
+        <li>Escolha cores e estilos para sua marca.</li>
+        <li>Personalize fontes e elementos visuais.</li>
+        <li>Experimente diferentes combinações.</li>
+        <li>Prepare materiais para apresentar seu negócio.</li>
+      </ul>
+    </section>
+
+    <section class="frase">
+      <h2>Pequenos negócios também merecem grandes oportunidades.</h2>
+      <p>Conhecimento, organização e criatividade para crescer com mais confiança.</p>
+    </section>
+
+    <section class="secao" id="sobre">
+      <div class="cabecalho-secao">
+        <span class="etiqueta">Sobre o Prisma Essenza</span>
+        <h2>Empreender não precisa ser um caminho solitário.</h2>
+        <p>
+          O Prisma Essenza é uma proposta de plataforma digital de apoio
+          a pequenos empreendedores. A iniciativa busca tornar ferramentas
+          de organização, planejamento e comunicação mais acessíveis,
+          contribuindo para o desenvolvimento e o fortalecimento de pequenos negócios.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <div class="logo">PRISMA <span>ESSENZA</span></div>
+      <p>Sua essência, seu negócio, seu crescimento.</p>
+    </div>
+    <p>Projeto acadêmico de extensão · UNIP</p>
+  </footer>
+
+  <script>
+    function mostrarAviso(ferramenta) {
+      const mensagens = {
+        marca: "O Studio de Marca será desenvolvido nesta próxima etapa, com personalização de cores, fontes e elementos visuais.",
+        precos: "A calculadora permitirá informar os custos e a quantidade produzida para estimar o custo unitário e o preço de venda.",
+        produtos: "Nesta área, você poderá cadastrar, editar e organizar os produtos do seu negócio.",
+        financeiro: "Aqui construiremos o registro de vendas e despesas para acompanhar a movimentação financeira.",
+        resultados: "Esta área apresentará indicadores e gráficos calculados a partir dos dados cadastrados.",
+        divulgacao: "Esta ferramenta ajudará a elaborar ideias e textos para divulgar seus produtos nas redes sociais."
+      };
+
+      const aviso = document.getElementById("aviso");
+      aviso.textContent = mensagens[ferramenta] || "Esta ferramenta será desenvolvida nas próximas etapas.";
+      aviso.style.display = "block";
+      aviso.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  </script>
+</body>
+</html>
+```
