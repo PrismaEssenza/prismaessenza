@@ -1,4 +1,4 @@
-```html
+x```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -494,7 +494,148 @@
         <li>Prepare materiais para apresentar seu negócio.</li>
       </ul>
     </section>
+```html
+<section class="secao" id="calculadora">
+  <div class="cabecalho-secao">
+    <span class="etiqueta">Planeje seus preços</span>
+    <h2>Descubra quanto custa produzir</h2>
+    <p>
+      Informe seus custos e a quantidade produzida para estimar o custo
+      por unidade e avaliar o preço de venda do seu produto.
+    </p>
+  </div>
 
+  <div class="cartao">
+    <form id="formCalculadora">
+      <label for="ingredientes">Ingredientes ou materiais (R$)</label>
+      <input id="ingredientes" type="number" min="0" step="0.01"
+        placeholder="Ex.: 30,00" required>
+
+      <label for="embalagens">Embalagens (R$)</label>
+      <input id="embalagens" type="number" min="0" step="0.01"
+        placeholder="Ex.: 10,00" required>
+
+      <label for="outrosCustos">Outros custos de produção (R$)</label>
+      <input id="outrosCustos" type="number" min="0" step="0.01"
+        placeholder="Ex.: 10,00" required>
+
+      <label for="quantidade">Quantidade produzida</label>
+      <input id="quantidade" type="number" min="1" step="1"
+        placeholder="Ex.: 20" required>
+
+      <label for="precoVenda">Preço de venda por unidade (R$)</label>
+      <input id="precoVenda" type="number" min="0" step="0.01"
+        placeholder="Ex.: 4,00" required>
+
+      <button class="botao botao-principal" type="submit">
+        Calcular meus preços
+      </button>
+    </form>
+
+    <div id="resultadoPrecos" aria-live="polite"
+      style="display:none; margin-top:25px; padding:20px;
+      background:#E7EBDD; border-radius:10px;">
+      <h3 style="margin-bottom:15px;">Resultado do cálculo</h3>
+      <p>Custo total informado: <strong id="custoTotal"></strong></p>
+      <p>Custo por unidade: <strong id="custoUnitario"></strong></p>
+      <p>Preço de venda por unidade: <strong id="precoResultado"></strong></p>
+      <p>Diferença por unidade: <strong id="diferencaUnidade"></strong></p>
+      <p>Diferença total estimada: <strong id="diferencaTotal"></strong></p>
+      <p id="explicacaoResultado" style="margin-top:15px;"></p>
+      <p style="font-size:13px; margin-top:12px;">
+        Atenção: a diferença calculada não representa necessariamente
+        o lucro líquido. Despesas, impostos e outros custos não informados
+        podem reduzir o resultado real.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #formCalculadora {
+    display: grid;
+    gap: 10px;
+    max-width: 650px;
+  }
+
+  #formCalculadora label {
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
+  #formCalculadora input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 7px;
+    background: var(--creme);
+    color: var(--marrom);
+  }
+
+  #formCalculadora input:focus {
+    outline: 2px solid var(--verde);
+    outline-offset: 2px;
+  }
+
+  #formCalculadora button {
+    margin-top: 15px;
+  }
+
+  #resultadoPrecos p {
+    margin: 8px 0;
+  }
+</style>
+
+<script>
+  document.getElementById("formCalculadora").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const ingredientes = Number(document.getElementById("ingredientes").value);
+    const embalagens = Number(document.getElementById("embalagens").value);
+    const outrosCustos = Number(document.getElementById("outrosCustos").value);
+    const quantidade = Number(document.getElementById("quantidade").value);
+    const precoVenda = Number(document.getElementById("precoVenda").value);
+
+    if (
+      ![ingredientes, embalagens, outrosCustos, quantidade, precoVenda].every(Number.isFinite) ||
+      ingredientes < 0 || embalagens < 0 || outrosCustos < 0 ||
+      !Number.isInteger(quantidade) || quantidade < 1 || precoVenda < 0
+    ) {
+      alert("Confira os valores. Os custos e o preço não podem ser negativos, e a quantidade deve ser um número inteiro maior que zero.");
+      return;
+    }
+
+    const custoTotal = ingredientes + embalagens + outrosCustos;
+    const custoUnitario = custoTotal / quantidade;
+    const diferencaUnidade = precoVenda - custoUnitario;
+    const diferencaTotal = diferencaUnidade * quantidade;
+
+    const moeda = valor => valor.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL"
+    });
+
+    document.getElementById("custoTotal").textContent = moeda(custoTotal);
+    document.getElementById("custoUnitario").textContent = moeda(custoUnitario);
+    document.getElementById("precoResultado").textContent = moeda(precoVenda);
+    document.getElementById("diferencaUnidade").textContent = moeda(diferencaUnidade);
+    document.getElementById("diferencaTotal").textContent = moeda(diferencaTotal);
+
+    let explicacao;
+
+    if (diferencaUnidade > 0) {
+      explicacao = "O preço de venda está acima do custo informado por unidade.";
+    } else if (diferencaUnidade < 0) {
+      explicacao = "Atenção: o preço de venda está abaixo do custo informado por unidade.";
+    } else {
+      explicacao = "O preço de venda é igual ao custo informado por unidade.";
+    }
+
+    document.getElementById("explicacaoResultado").textContent = explicacao;
+    document.getElementById("resultadoPrecos").style.display = "block";
+  });
+</script>
+```
     <section class="frase">
       <h2>Pequenos negócios também merecem grandes oportunidades.</h2>
       <p>Conhecimento, organização e criatividade para crescer com mais confiança.</p>
