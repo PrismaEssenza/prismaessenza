@@ -1,1798 +1,435 @@
-x```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Prisma Essenza: ferramentas gratuitas para ajudar pequenos empreendedores a organizar, valorizar e divulgar seus negócios.">
-  <title>Prisma Essenza | Seu negócio, seu crescimento</title>
-
+  <meta name="theme-color" content="#f6f1e9">
+  <title>Prisma Essenza | Seu espaço criativo</title>
   <style>
     :root {
-      --creme: #FAF6EF;
-      --verde: #8B9B83;
-      --verde-escuro: #52664F;
-      --rosa: #D9AAA8;
-      --terracota: #BD795F;
-      --marrom: #46372F;
-      --branco: #FFFFFF;
-      --borda: #E9E0D5;
+      --fundo: #f8f5ef;
+      --papel: #fffdf9;
+      --texto: #292923;
+      --suave: #77766e;
+      --verde: #596b55;
+      --verde-escuro: #344434;
+      --dourado: #c5a46d;
+      --borda: #e7e0d5;
+      --rosa: #ead8d0;
+      --sombra: 0 12px 34px rgba(44, 43, 35, .07);
+      --raio: 20px;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      background: var(--creme);
-      color: var(--marrom);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
+      margin: 0; color: var(--texto); background: var(--fundo);
+      font-family: Inter, "Segoe UI", Arial, sans-serif; line-height: 1.6;
     }
-
-    button, input, select, textarea {
-      font: inherit;
+    button, input, select, textarea { font: inherit; }
+    button, .botao {
+      border: 0; cursor: pointer; border-radius: 999px; padding: 11px 17px;
+      background: var(--verde); color: white; transition: .2s ease;
     }
-
-    button {
-      cursor: pointer;
+    button:hover, .botao:hover { background: var(--verde-escuro); transform: translateY(-1px); }
+    button.secundario { background: #eee8dd; color: var(--texto); }
+    button.perigo { background: #a34d43; }
+    a { color: inherit; }
+    .container { width: min(1100px, 92%); margin: 0 auto; }
+    header {
+      position: sticky; top: 0; z-index: 20; background: rgba(248,245,239,.94);
+      backdrop-filter: blur(12px); border-bottom: 1px solid rgba(231,224,213,.8);
     }
-
-    .topo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 22px 7%;
-      background: var(--creme);
-      border-bottom: 1px solid var(--borda);
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .marca { font-family: Georgia, serif; font-size: 1.35rem; letter-spacing: .04em; text-decoration: none; }
+    .marca span { color: var(--verde); }
+    nav { display: flex; gap: 18px; flex-wrap: wrap; justify-content: flex-end; }
+    nav a { font-size: .9rem; text-decoration: none; color: #5e5c54; }
+    nav a:hover { color: var(--verde); }
+    .hero { padding: 82px 0 68px; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 42px; }
+    .eyebrow { color: var(--verde); text-transform: uppercase; letter-spacing: .16em; font-size: .75rem; font-weight: 700; }
+    h1, h2, h3 { line-height: 1.15; }
+    h1 { font: 500 clamp(2.6rem, 6vw, 4.8rem)/1.05 Georgia, serif; margin: 15px 0 20px; letter-spacing: -.035em; }
+    h1 em { color: var(--verde); font-weight: 400; }
+    .hero p { color: var(--suave); max-width: 590px; font-size: 1.08rem; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+    .hero-art { min-height: 330px; border-radius: 48% 48% 22px 22px; background: linear-gradient(145deg,#e9e1d2,#d8dfd0 58%,#b8c4b1); display: grid; place-items: center; box-shadow: var(--sombra); overflow: hidden; position: relative; }
+    .hero-art:before, .hero-art:after { content: ""; position: absolute; border: 1px solid rgba(255,255,255,.65); border-radius: 50%; width: 220px; height: 300px; transform: rotate(32deg); }
+    .hero-art:after { width: 160px; height: 245px; transform: rotate(-32deg); }
+    .hero-symbol { z-index: 1; font: 6rem Georgia,serif; color: rgba(52,68,52,.8); }
+    section { padding: 62px 0; scroll-margin-top: 85px; }
+    .section-head { max-width: 700px; margin: 0 auto 30px; text-align: center; }
+    .section-head h2 { font: 500 clamp(2rem,4vw,3rem) Georgia,serif; margin: 9px 0 12px; }
+    .section-head p { color: var(--suave); margin: 0; }
+    .cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+    .card, .painel { background: var(--papel); border: 1px solid var(--borda); border-radius: var(--raio); padding: 24px; box-shadow: var(--sombra); }
+    .card .icone { font-size: 1.7rem; }
+    .card h3 { font: 500 1.45rem Georgia,serif; margin: 12px 0 8px; }
+    .card p { color: var(--suave); font-size: .95rem; }
+    .card a { display: inline-block; margin-top: 8px; color: var(--verde); font-weight: 700; text-decoration: none; }
+    .ferramenta { background: #f0ede5; }
+    .painel { max-width: 900px; margin: 0 auto; }
+    .form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 15px; }
+    .campo { display: flex; flex-direction: column; gap: 6px; }
+    .campo.largo { grid-column: 1/-1; }
+    label { font-size: .88rem; font-weight: 650; }
+    input, select, textarea {
+      width: 100%; border: 1px solid #dcd5c9; border-radius: 12px; padding: 11px 12px;
+      background: #fffefa; color: var(--texto); min-width: 0;
     }
-
-    .logo {
-      font-family: Georgia, serif;
-      font-size: 25px;
-      font-weight: bold;
-      letter-spacing: 1px;
+    input:focus, select:focus, textarea:focus { outline: 2px solid #b8c5b0; border-color: var(--verde); }
+    .acoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 17px; }
+    .resultado { margin-top: 18px; padding: 18px; background: #edf1e9; border-radius: 15px; display: none; }
+    .resultado.visivel { display: block; }
+    .resultado strong { color: var(--verde-escuro); }
+    .resumo-financeiro { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 20px 0; }
+    .resumo-item { background: #f4f1e9; border-radius: 14px; padding: 15px; }
+    .resumo-item span { display: block; color: var(--suave); font-size: .82rem; }
+    .resumo-item strong { display: block; font-size: 1.3rem; overflow-wrap: anywhere; }
+    .positivo { color: #3f7047; } .negativo { color: #a34d43; }
+    .lista { display: grid; gap: 10px; margin-top: 15px; }
+    .linha-lista { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid var(--borda); border-radius: 14px; padding: 12px 14px; background: #fffefa; }
+    .linha-lista small { display: block; color: var(--suave); }
+    .linha-lista .valor { font-weight: 750; white-space: nowrap; }
+    .linha-lista button { padding: 7px 11px; font-size: .8rem; }
+    .subtitulo { font: 500 1.6rem Georgia,serif; margin: 28px 0 12px; }
+    .frase { text-align: center; font: italic 1.6rem Georgia,serif; padding: 35px 20px; color: var(--verde-escuro); }
+    footer { border-top: 1px solid var(--borda); padding: 28px 0; color: var(--suave); font-size: .85rem; text-align: center; }
+    .nota { font-size: .84rem; color: var(--suave); }
+    @media (max-width: 760px) {
+      .hero { padding-top: 52px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-art { min-height: 230px; }
+      nav { gap: 9px 13px; }
+      .nav { align-items: flex-start; padding: 15px 0; flex-direction: column; }
+      .cards { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .resumo-financeiro { grid-template-columns: 1fr; }
+      .linha-lista { align-items: flex-start; }
     }
-
-    .logo span {
-      color: var(--terracota);
-    }
-
-    .menu {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .menu a {
-      color: var(--marrom);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .menu a:hover {
-      color: var(--terracota);
-    }
-
-    .hero {
-      padding: 90px 7%;
-      display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      align-items: center;
-      gap: 50px;
-      background:
-        radial-gradient(circle at 90% 20%, #E9D7C8 0, transparent 28%),
-        var(--creme);
-    }
-
-    .etiqueta {
-      display: inline-block;
-      color: var(--verde-escuro);
-      background: #E6EBDD;
-      padding: 7px 14px;
-      border-radius: 30px;
-      font-size: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-    }
-
-    h1, h2, h3 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: normal;
-      line-height: 1.2;
-    }
-
-    h1 {
-      font-size: clamp(40px, 5vw, 66px);
-      margin-bottom: 22px;
-      max-width: 700px;
-    }
-
-    h1 span {
-      color: var(--terracota);
-      font-style: italic;
-    }
-
-    .hero p {
-      max-width: 600px;
-      font-size: 17px;
-      margin-bottom: 28px;
-      color: #6E6056;
-    }
-
-    .botao {
-      display: inline-block;
-      border: none;
-      border-radius: 7px;
-      padding: 13px 21px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .botao-principal {
-      background: var(--verde-escuro);
-      color: var(--branco);
-    }
-
-    .botao-principal:hover {
-      background: #3F523C;
-      transform: translateY(-2px);
-    }
-
-    .botao-secundario {
-      background: transparent;
-      color: var(--marrom);
-      border: 1px solid var(--borda);
-      margin-left: 8px;
-    }
-
-    .ilustracao {
-      min-height: 330px;
-      background: #E8D8C8;
-      border-radius: 48% 48% 12px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 30px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .flor {
-      font-size: 105px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .ilustracao p {
-      font-family: Georgia, serif;
-      font-size: 23px;
-      color: var(--marrom);
-      margin: 0;
-    }
-
-    .secao {
-      padding: 75px 7%;
-    }
-
-    .cabecalho-secao {
-      max-width: 650px;
-      margin-bottom: 35px;
-    }
-
-    .cabecalho-secao h2 {
-      font-size: clamp(30px, 4vw, 43px);
-      margin-bottom: 13px;
-    }
-
-    .cabecalho-secao p {
-      color: #75675C;
-    }
-
-    .ferramentas {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .cartao {
-      background: var(--branco);
-      padding: 27px;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      transition: 0.2s;
-    }
-
-    .cartao:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px #46372F0D;
-    }
-
-    .icone {
-      font-size: 31px;
-      margin-bottom: 13px;
-    }
-
-    .cartao h3 {
-      font-size: 23px;
-      margin-bottom: 10px;
-    }
-
-    .cartao p {
-      color: #75675C;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    .cartao button {
-      background: transparent;
-      border: none;
-      color: var(--verde-escuro);
-      font-weight: bold;
-      text-align: left;
-    }
-
-    .destaque {
-      background: #E7EBDD;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 35px;
-      align-items: center;
-    }
-
-    .destaque h2 {
-      font-size: clamp(30px, 4vw, 43px);
-      margin-bottom: 15px;
-    }
-
-    .destaque p {
-      color: #5E6857;
-      margin-bottom: 20px;
-    }
-
-    .lista {
-      list-style: none;
-    }
-
-    .lista li {
-      margin: 12px 0;
-    }
-
-    .lista li::before {
-      content: "✓ ";
-      color: var(--verde-escuro);
-      font-weight: bold;
-    }
-
-    .frase {
-      padding: 55px 7%;
-      text-align: center;
-      background: #EBD6D2;
-    }
-
-    .frase h2 {
-      font-size: clamp(27px, 4vw, 40px);
-      max-width: 800px;
-      margin: 0 auto 15px;
-    }
-
-    .frase p {
-      color: #765D56;
-    }
-
-    footer {
-      background: var(--marrom);
-      color: var(--creme);
-      padding: 35px 7%;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    footer p {
-      font-size: 13px;
-      color: #E2D8CD;
-    }
-
-    .aviso {
-      display: none;
-      background: #FFF6E8;
-      border: 1px solid #E9D2AF;
-      border-radius: 8px;
-      padding: 15px;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    @media (max-width: 850px) {
-      .hero, .destaque {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 55px;
-      }
-
-      .ilustracao {
-        min-height: 260px;
-      }
-
-      .ferramentas {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .menu {
-        gap: 12px;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .topo {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 18px 5%;
-      }
-
-      .logo {
-        font-size: 22px;
-      }
-
-      .menu {
-        gap: 10px 16px;
-      }
-
-      .hero, .secao {
-        padding: 45px 5%;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .botao-secundario {
-        margin: 10px 0 0;
-      }
-
-      .ferramentas {
-        grid-template-columns: 1fr;
-      }
-
-      footer {
-        padding: 28px 5%;
-      }
-    }
-    ```css
-/* CONTROLE FINANCEIRO - PRISMA ESSENZA */
-.controle-financeiro {
-    padding: 80px 20px;
-    background: #f8f4ed;
-    color: #493d35;
-}
-
-.financeiro-container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.controle-financeiro .etiqueta {
-    display: block;
-    margin-bottom: 12px;
-    color: #8b7565;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-align: center;
-}
-
-.controle-financeiro h2 {
-    margin-bottom: 15px;
-    color: #493d35;
-    font-size: clamp(30px, 4vw, 42px);
-    text-align: center;
-}
-
-.financeiro-intro {
-    max-width: 600px;
-    margin: 0 auto 35px;
-    color: #75685f;
-    line-height: 1.7;
-    text-align: center;
-}
-
-.financeiro-resumo {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    margin-bottom: 35px;
-}
-
-.financeiro-card {
-    padding: 25px 20px;
-    border: 1px solid #e8dfd3;
-    border-radius: 18px;
-    background: #fffdf9;
-    box-shadow: 0 5px 18px rgba(73, 61, 53, 0.05);
-}
-
-.financeiro-card span {
-    display: block;
-    margin-bottom: 12px;
-    color: #75685f;
-    font-size: 14px;
-}
-
-.financeiro-card strong {
-    font-size: clamp(19px, 3vw, 27px);
-    overflow-wrap: anywhere;
-}
-
-.financeiro-card.entradas {
-    border-top: 4px solid #8ba58b;
-}
-
-.financeiro-card.saidas {
-    border-top: 4px solid #c88e82;
-}
-
-.financeiro-card.saldo {
-    border-top: 4px solid #c
   </style>
 </head>
-```html
-<script>
-(function () {
-    const chave = "prismaEssenzaMovimentacoes";
-
-    const tipoInput = document.getElementById("tipo-movimentacao");
-    const descricaoInput = document.getElementById("descricao-movimentacao");
-    const valorInput = document.getElementById("valor-movimentacao");
-    const dataInput = document.getElementById("data-movimentacao");
-    const botaoRegistrar = document.getElementById("btn-registrar-movimentacao");
-
-    const totalEntradas = document.getElementById("total-entradas");
-    const totalDespesas = document.getElementById("total-despesas");
-    const saldoAtual = document.getElementById("saldo-atual");
-    const mensagem = document.getElementById("mensagem-financeiro");
-    const lista = document.getElementById("lista-movimentacoes");
-
-    if (
-        !tipoInput || !descricaoInput || !valorInput ||
-        !dataInput || !botaoRegistrar || !totalEntradas ||
-        !totalDespesas || !saldoAtual || !mensagem || !lista
-    ) {
-        return;
-    }
-
-    let movimentacoes = carregarMovimentacoes();
-
-    function carregarMovimentacoes() {
-        try {
-            const dados = JSON.parse(localStorage.getItem(chave) || "[]");
-            return Array.isArray(dados) ? dados : [];
-        } catch (erro) {
-            return [];
-        }
-    }
-
-    function salvarMovimentacoes() {
-        try {
-            localStorage.setItem(chave, JSON.stringify(movimentacoes));
-        } catch (erro) {
-            alert("Não foi possível salvar os dados neste navegador.");
-        }
-    }
-
-    function formatarMoeda(valor) {
-        return valor.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-    }
-
-    function formatarData(data) {
-        if (!data) return "";
-        const partes = data.split("-");
-        return partes.length === 3
-            ? partes[2] + "/" + partes[1] + "/" + partes[0]
-            : data;
-    }
-
-    function atualizarResumo() {
-        const entradas = movimentacoes
-            .filter(item => item.tipo === "entrada")
-            .reduce((soma, item) => soma + item.valor, 0);
-
-        const despesas = movimentacoes
-            .filter(item => item.tipo === "despesa")
-            .reduce((soma, item) => soma + item.valor, 0);
-
-        totalEntradas.textContent = formatarMoeda(entradas);
-        totalDespesas.textContent = formatarMoeda(despesas);
-        saldoAtual.textContent = formatarMoeda(entradas - despesas);
-    }
-
-    function exibirMovimentacoes() {
-        lista.replaceChildren();
-        mensagem.hidden = movimentacoes.length > 0;
-
-        if (movimentacoes.length === 0) {
-            mensagem.textContent = "Suas movimentações aparecerão aqui.";
-            return;
-        }
-
-        const ordenadas = [...movimentacoes].sort((a, b) => {
-            return b.data.localeCompare(a.data) || b.id - a.id;
-        });
-
-        ordenadas.forEach(item => {
-            const cartao = document.createElement("div");
-            cartao.className = "movimentacao-item";
-
-            const informacoes = document.createElement("div");
-            informacoes.className = "movimentacao-info";
-
-            const descricao = document.createElement("strong");
-            descricao.textContent = item.descricao;
-
-            const detalhes = document.createElement("span");
-            detalhes.textContent =
-                (item.tipo === "entrada" ? "Entrada" : "Despesa") +
-                " • " + formatarData(item.data);
-
-            informacoes.appendChild(descricao);
-            informacoes.appendChild(detalhes);
-
-            const ladoDireito = document.createElement("div");
-
-            const valor = document.createElement("div");
-            valor.className = "movimentacao-valor " + item.tipo;
-            valor.textContent =
-                (item.tipo === "entrada" ? "+ " : "− ") +
-                formatarMoeda(item.valor);
-
-            const excluir = document.createElement("button");
-            excluir.type = "button";
-            excluir.className = "btn-excluir-movimentacao";
-            excluir.textContent = "Excluir";
-            excluir.setAttribute(
-                "aria-label",
-                "Excluir movimentação: " + item.descricao
-            );
-
-            excluir.addEventListener("click", function () {
-                const confirmar = confirm(
-                    'Deseja excluir a movimentação "' + item.descricao + '"?'
-                );
-
-                if (!confirmar) return;
-
-                movimentacoes = movimentacoes.filter(mov => mov.id !== item.id);
-                salvarMovimentacoes();
-                atualizarResumo();
-                exibirMovimentacoes();
-            });
-
-            ladoDireito.appendChild(valor);
-            ladoDireito.appendChild(excluir);
-
-            cartao.appendChild(informacoes);
-            cartao.appendChild(ladoDireito);
-            lista.appendChild(cartao);
-        });
-    }
-
-    botaoRegistrar.addEventListener("click", function () {
-        const tipo = tipoInput.value;
-        const descricao = descricaoInput.value.trim();
-        const valor = Number(valorInput.value);
-        const data = dataInput.value;
-
-        if (!descricao) {
-            alert("Digite uma descrição para a movimentação.");
-            descricaoInput.focus();
-            return;
-        }
-
-        if (!Number.isFinite(valor) || valor <= 0) {
-            alert("Informe um valor maior que zero.");
-            valorInput.focus();
-            return;
-        }
-
-        if (!data) {
-            alert("Selecione a data da movimentação.");
-            dataInput.focus();
-            return;
-        }
-
-        if (tipo !== "entrada" && tipo !== "despesa") {
-            alert("Selecione um tipo de movimentação válido.");
-            return;
-        }
-
-        movimentacoes.push({
-            id: Date.now() + Math.random(),
-            tipo: tipo,
-            descricao: descricao,
-            valor: Math.round(valor * 100) / 100,
-            data: data
-        });
-
-        salvarMovimentacoes();
-        atualizarResumo();
-        exibirMovimentacoes();
-
-        descricaoInput.value = "";
-        valorInput.value = "";
-        dataInput.value = new Date().toLocaleDateString("en-CA");
-        tipoInput.value = "entrada";
-
-        alert("Movimentação registrada com sucesso!");
-    });
-
-    dataInput.value = new Date().toLocaleDateString("en-CA");
-
-    atualizarResumo();
-    exibirMovimentacoes();
-})();
-</script>
-```
 <body>
-  <header class="topo">
-    <div class="logo">PRISMA <span>ESSENZA</span></div>
-
-    <nav class="menu" aria-label="Navegação principal">
-      <a href="#inicio">Início</a>
-      <a href="#ferramentas">Ferramentas</a>
-      <a href="#marca">Identidade visual</a>
-      <a href="#sobre">Sobre o projeto</a>
-    </nav>
+  <header>
+    <div class="container nav">
+      <a class="marca" href="#inicio">prisma <span>essenza</span></a>
+      <nav aria-label="Navegação principal">
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#financeiro">Financeiro</a>
+        <a href="#marca">Estúdio de marca</a>
+        <a href="#produtos">Meus produtos</a>
+      </nav>
+    </div>
   </header>
 
   <main>
     <section class="hero" id="inicio">
-      <div>
-        <span class="etiqueta">Um espaço para o seu negócio</span>
-
-        <h1>Sua ideia merece <span>crescer.</span></h1>
-
-        <p>
-          Organize suas finanças, desenvolva a identidade visual da sua marca
-          e descubra novas maneiras de divulgar seus produtos.
-          Tudo em um só lugar, de forma gratuita e simples de usar.
-        </p>
-
-        <a href="#ferramentas" class="botao botao-principal">
-          Conhecer ferramentas
-        </a>
-
-        <a href="#sobre" class="botao botao-secundario">
-          Conhecer o projeto
-        </a>
-      </div>
-
-      <div class="ilustracao">
+      <div class="container hero-grid">
         <div>
-          <span class="flor">✿</span>
-          <p>Sua essência,<br>seu negócio,<br>seu crescimento.</p>
+          <div class="eyebrow">Criatividade com intenção</div>
+          <h1>Transforme suas ideias em algo <em>essencial.</em></h1>
+          <p>Um espaço para organizar projetos, calcular custos, cuidar das finanças e dar forma às ideias da sua marca — com calma, clareza e personalidade.</p>
+          <div class="hero-actions">
+            <a class="botao" href="#ferramentas" style="text-decoration:none">Explorar ferramentas</a>
+            <a class="botao" href="#marca" style="text-decoration:none;background:#e9e3d8;color:#292923">Criar minha marca</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Ilustração abstrata em tons naturais"><div class="hero-symbol">✳</div></div>
+      </div>
+    </section>
+
+    <section id="ferramentas">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Seu espaço de trabalho</div>
+          <h2>Pequenas ferramentas, grandes ideias</h2>
+          <p>Escolha por onde começar. Tudo foi pensado para ajudar você a tirar os planos do papel.</p>
+        </div>
+        <div class="cards">
+          <article class="card"><div class="icone">◒</div><h3>Calculadora de custos</h3><p>Some materiais, despesas e margem de lucro para chegar a um preço de venda mais consciente.</p><a href="#custos">Abrir calculadora →</a></article>
+          <article class="card"><div class="icone">⌁</div><h3>Controle financeiro</h3><p>Registre entradas e despesas, acompanhe o saldo e consulte seu histórico de movimentações.</p><a href="#financeiro">Organizar finanças →</a></article>
+          <article class="card"><div class="icone">✳</div><h3>Estúdio de marca</h3><p>Reúna o nome, a proposta e a personalidade da sua marca em um pequeno guia.</p><a href="#marca">Construir identidade →</a></article>
         </div>
       </div>
     </section>
 
-    <section class="secao" id="ferramentas">
-      <div class="cabecalho-secao">
-        <span class="etiqueta">Tudo começa com uma ideia</span>
-        <h2>Ferramentas para fazer acontecer</h2>
-        <p>
-          Recursos pensados para facilitar a rotina de quem empreende,
-          desde os primeiros passos até o crescimento do negócio.
-        </p>
-      </div>
-
-      <div class="ferramentas">
-        <article class="cartao">
-          <div class="icone">🎨</div>
-          <h3>Studio de Marca</h3>
-          <p>Crie uma identidade visual com cores, fontes e elementos que representem sua marca.</p>
-<button onclick="document.getElementById('studio-marca').scrollIntoView({behavior:'smooth'})">Explorar ferramenta →</button>        </article>
-
-        <article class="cartao">
-          <div class="icone">🧮</div>
-          <h3>Calculadora de Preços</h3>
-          <p>Descubra o custo por produto e estime um preço de venda mais consciente.</p>
-<button onclick="document.getElementById('calculadora').scrollIntoView({behavior:'smooth'})">Explorar ferramenta →</button>        </article>
-
-        <article class="cartao">
-          <div class="icone">📦</div>
-          <h3>Meus Produtos</h3>
-          <p>Organize os produtos, seus custos e os preços praticados no seu negócio.</p>
-          <button onclick="mostrarAviso('produtos')">Explorar ferramenta →</button>
-        </article>
-
-        <article class="cartao">
-          <div class="icone">💰</div>
-          <h3>Controle Financeiro</h3>
-          <p>Acompanhe entradas, despesas e a movimentação financeira do negócio.</p>
-          <button onclick="mostrarAviso('financeiro')">Explorar ferramenta →</button>
-        </article>
-
-        <article class="cartao">
-          <div class="icone">📊</div>
-          <h3>Visão do Negócio</h3>
-          <p>Visualize indicadores para entender melhor os resultados e planejar os próximos passos.</p>
-          <button onclick="mostrarAviso('resultados')">Explorar ferramenta →</button>
-        </article>
-
-        <article class="cartao">
-          <div class="icone">📱</div>
-          <h3>Divulgue sua Marca</h3>
-          <p>Encontre ideias de conteúdo e crie textos para divulgar seus produtos nas redes sociais.</p>
-          <button onclick="mostrarAviso('divulgacao')">Explorar ferramenta →</button>
-        </article>
-      </div>
-
-      <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
-    </section>
-
-    <section class="secao destaque" id="marca">
-      <div>
-        <span class="etiqueta">Sua marca, do seu jeito</span>
-        <h2>Você tem a ideia. Vamos dar forma a ela.</h2>
-        <p>
-          Uma identidade visual ajuda seu negócio a transmitir sua personalidade
-          e se apresentar ao público de maneira mais consistente.
-        </p>
-        <button class="botao botao-principal" onclick="mostrarAviso('marca')">
-          Conhecer o Studio de Marca
-        </button>
-      </div>
-
-      <ul class="lista">
-        <li>Escolha cores e estilos para sua marca.</li>
-        <li>Personalize fontes e elementos visuais.</li>
-        <li>Experimente diferentes combinações.</li>
-        <li>Prepare materiais para apresentar seu negócio.</li>
-      </ul>
-    </section>
-```html
-<section class="secao" id="calculadora">
-  <div class="cabecalho-secao">
-    <span class="etiqueta">Planeje seus preços</span>
-    <h2>Descubra quanto custa produzir</h2>
-    <p>
-      Informe seus custos e a quantidade produzida para estimar o custo
-      por unidade e avaliar o preço de venda do seu produto.
-    </p>
-  </div>
-
-  <div class="cartao">
-    <form id="formCalculadora">
-      <label for="ingredientes">Ingredientes ou materiais (R$)</label>
-      <input id="ingredientes" type="number" min="0" step="0.01"
-        placeholder="Ex.: 30,00" required>
-
-      <label for="embalagens">Embalagens (R$)</label>
-      <input id="embalagens" type="number" min="0" step="0.01"
-        placeholder="Ex.: 10,00" required>
-
-      <label for="outrosCustos">Outros custos de produção (R$)</label>
-      <input id="outrosCustos" type="number" min="0" step="0.01"
-        placeholder="Ex.: 10,00" required>
-
-      <label for="quantidade">Quantidade produzida</label>
-      <input id="quantidade" type="number" min="1" step="1"
-        placeholder="Ex.: 20" required>
-
-      <label for="precoVenda">Preço de venda por unidade (R$)</label>
-      <input id="precoVenda" type="number" min="0" step="0.01"
-        placeholder="Ex.: 4,00" required>
-
-      <button class="botao botao-principal" type="submit">
-        Calcular meus preços
-      </button>
-    </form>
-
-    <div id="resultadoPrecos" aria-live="polite"
-      style="display:none; margin-top:25px; padding:20px;
-      background:#E7EBDD; border-radius:10px;">
-      <h3 style="margin-bottom:15px;">Resultado do cálculo</h3>
-      <p>Custo total informado: <strong id="custoTotal"></strong></p>
-      <p>Custo por unidade: <strong id="custoUnitario"></strong></p>
-      <p>Preço de venda por unidade: <strong id="precoResultado"></strong></p>
-      <p>Diferença por unidade: <strong id="diferencaUnidade"></strong></p>
-      <p>Diferença total estimada: <strong id="diferencaTotal"></strong></p>
-      <p id="explicacaoResultado" style="margin-top:15px;"></p>
-      <p style="font-size:13px; margin-top:12px;">
-        Atenção: a diferença calculada não representa necessariamente
-        o lucro líquido. Despesas, impostos e outros custos não informados
-        podem reduzir o resultado real.
-      </p>
-    </div>
-  </div>
-</section>
-
-<style>
-  #formCalculadora {
-    display: grid;
-    gap: 10px;
-    max-width: 650px;
-  }
-
-  #formCalculadora label {
-    font-weight: bold;
-    margin-top: 8px;
-  }
-
-  #formCalculadora input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--borda);
-    border-radius: 7px;
-    background: var(--creme);
-    color: var(--marrom);
-  }
-
-  #formCalculadora input:focus {
-    outline: 2px solid var(--verde);
-    outline-offset: 2px;
-  }
-
-  #formCalculadora button {
-    margin-top: 15px;
-  }
-
-  #resultadoPrecos p {
-    margin: 8px 0;
-  }
-</style>
-
-<script>
-  document.getElementById("formCalculadora").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const ingredientes = Number(document.getElementById("ingredientes").value);
-    const embalagens = Number(document.getElementById("embalagens").value);
-    const outrosCustos = Number(document.getElementById("outrosCustos").value);
-    const quantidade = Number(document.getElementById("quantidade").value);
-    const precoVenda = Number(document.getElementById("precoVenda").value);
-
-    if (
-      ![ingredientes, embalagens, outrosCustos, quantidade, precoVenda].every(Number.isFinite) ||
-      ingredientes < 0 || embalagens < 0 || outrosCustos < 0 ||
-      !Number.isInteger(quantidade) || quantidade < 1 || precoVenda < 0
-    ) {
-      alert("Confira os valores. Os custos e o preço não podem ser negativos, e a quantidade deve ser um número inteiro maior que zero.");
-      return;
-    }
-
-    const custoTotal = ingredientes + embalagens + outrosCustos;
-    const custoUnitario = custoTotal / quantidade;
-    const diferencaUnidade = precoVenda - custoUnitario;
-    const diferencaTotal = diferencaUnidade * quantidade;
-
-    const moeda = valor => valor.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL"
-    });
-
-    document.getElementById("custoTotal").textContent = moeda(custoTotal);
-    document.getElementById("custoUnitario").textContent = moeda(custoUnitario);
-    document.getElementById("precoResultado").textContent = moeda(precoVenda);
-    document.getElementById("diferencaUnidade").textContent = moeda(diferencaUnidade);
-    document.getElementById("diferencaTotal").textContent = moeda(diferencaTotal);
-
-    let explicacao;
-
-    if (diferencaUnidade > 0) {
-      explicacao = "O preço de venda está acima do custo informado por unidade.";
-    } else if (diferencaUnidade < 0) {
-      explicacao = "Atenção: o preço de venda está abaixo do custo informado por unidade.";
-    } else {
-      explicacao = "O preço de venda é igual ao custo informado por unidade.";
-    }
-
-    document.getElementById("explicacaoResultado").textContent = explicacao;
-    document.getElementById("resultadoPrecos").style.display = "block";
-  });
-</script>
-```
-   <section class="secao" id="studio-marca">
-  <div class="cabecalho-secao">
-    <span class="etiqueta">Sua identidade, suas ideias</span>
-    <h2>Studio de Marca</h2>
-    <p>Crie uma identidade visual para o seu negócio de forma gratuita, simples e personalizada.</p>
-  </div>
-
-  <div class="cartao studio-cartao">
-    <div class="studio-formulario">
-      <label for="nomeMarca">Nome da sua marca</label>
-      <input type="text" id="nomeMarca" maxlength="45" placeholder="Ex.: Doces da Bel">
-
-      <label for="sloganMarca">Slogan da sua marca</label>
-      <input type="text" id="sloganMarca" maxlength="80" placeholder="Ex.: Feito com amor em cada detalhe">
-
-      <label for="corFundo">Cor de fundo</label>
-      <input type="color" id="corFundo" value="#F7F0E8">
-
-      <label for="corTexto">Cor do texto</label>
-      <input type="color" id="corTexto" value="#594638">
-
-      <label for="fonteMarca">Estilo da fonte</label>
-      <select id="fonteMarca">
-        <option value="Georgia, serif">Elegante</option>
-        <option value="Arial, sans-serif">Moderna</option>
-        <option value="'Trebuchet MS', sans-serif">Delicada</option>
-        <option value="cursive">Manuscrita</option>
-      </select>
-
-      <label for="simboloMarca">Elemento decorativo</label>
-      <select id="simboloMarca">
-        <option value="✿">Flor</option>
-        <option value="♡">Coração</option>
-        <option value="✦">Estrela</option>
-        <option value="❀">Flor delicada</option>
-        <option value="◇">Losango</option>
-        <option value="☼">Sol</option>
-        <option value="">Sem símbolo</option>
-      </select>
-
-      <button type="button" class="botao botao-principal" id="atualizarMarca">
-        Atualizar minha marca
-      </button>
-
-      <button type="button" class="botao" id="baixarMarca">
-        Baixar minha marca em PNG
-      </button>
-    </div>
-
-    <div class="studio-previa">
-      <p class="studio-titulo-previa">Prévia da sua identidade visual</p>
-
-      <div id="arteMarca" class="arte-marca">
-        <span id="simboloPrevia" class="simbolo-marca">✿</span>
-        <h3 id="nomePrevia">Nome da sua marca</h3>
-        <p id="sloganPrevia">Seu slogan aparecerá aqui</p>
-        <span class="linha-decorativa"></span>
-        <small>FEITO COM ESSÊNCIA</small>
-      </div>
-
-      <p class="studio-ajuda">
-        Personalize os campos e veja sua marca ganhar vida. Quando gostar do resultado,
-        você poderá baixar a arte para usar nas redes sociais.
-      </p>
-    </div>
-  </div>
-<style>
-  .studio-cartao {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
-    align-items: start;
-  }
-
-  .studio-formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .studio-formulario label {
-    margin-top: 8px;
-    font-weight: bold;
-    color: var(--marrom);
-  }
-
-  .studio-formulario input:not([type="color"]),
-  .studio-formulario select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--borda);
-    border-radius: 8px;
-    background: var(--creme);
-    color: var(--marrom);
-    font: inherit;
-  }
-
-  .studio-formulario input[type="color"] {
-    width: 100%;
-    height: 45px;
-    padding: 4px;
-    border: 1px solid var(--borda);
-    border-radius: 8px;
-    background: var(--creme);
-    cursor: pointer;
-  }
-
-  .studio-formulario button {
-    margin-top: 10px;
-    cursor: pointer;
-  }
-
-  .studio-previa {
-    min-width: 0;
-    text-align: center;
-  }
-
-  .studio-titulo-previa {
-    margin-bottom: 18px;
-    font-weight: bold;
-    color: var(--marrom);
-  }
-
-  .arte-marca {
-    min-height: 300px;
-    padding: 35px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border: 1px solid var(--borda);
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(60, 45, 35, 0.08);
-    overflow-wrap: anywhere;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-
-  .simbolo-marca {
-    font-size: 48px;
-    margin-bottom: 15px;
-  }
-
-  .arte-marca h3 {
-    font-size: clamp(22px, 4vw, 32px);
-    margin: 0 0 12px;
-    overflow-wrap: anywhere;
-  }
-
-  .arte-marca p {
-    margin: 0 0 20px;
-    line-height: 1.6;
-  }
-
-  .linha-decorativa {
-    display: block;
-    width: 65px;
-    height: 2px;
-    background: currentColor;
-    margin-bottom: 18px;
-    opacity: 0.65;
-  }
-
-  .arte-marca small {
-    font-size: 10px;
-    letter-spacing: 3px;
-  }
-
-  .studio-ajuda {
-    margin-top: 18px;
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--marrom);
-  }
-
-  @media (max-width: 700px) {
-    .studio-cartao {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-
-    .arte-marca {
-      min-height: 260px;
-    }
-  }
-</style>
-   </section>
-   <script>
-(function () {
-  const nomeMarca = document.getElementById("nomeMarca");
-  const sloganMarca = document.getElementById("sloganMarca");
-  const corFundo = document.getElementById("corFundo");
-  const corTexto = document.getElementById("corTexto");
-  const fonteMarca = document.getElementById("fonteMarca");
-  const simboloMarca = document.getElementById("simboloMarca");
-
-  const arte = document.getElementById("arteMarca");
-  const nomePrevia = document.getElementById("nomePrevia");
-  const sloganPrevia = document.getElementById("sloganPrevia");
-  const simboloPrevia = document.getElementById("simboloPrevia");
-
-  const atualizarMarca = document.getElementById("atualizarMarca");
-  const baixarMarca = document.getElementById("baixarMarca");
-
-  function atualizarPrevia() {
-    nomePrevia.textContent =
-      nomeMarca.value.trim() || "Nome da sua marca";
-
-    sloganPrevia.textContent =
-      sloganMarca.value.trim() || "Seu slogan aparecerá aqui";
-
-    simboloPrevia.textContent = simboloMarca.value;
-
-    arte.style.backgroundColor = corFundo.value;
-    arte.style.color = corTexto.value;
-    arte.style.fontFamily = fonteMarca.value;
-  }
-
-  [
-    nomeMarca,
-    sloganMarca,
-    corFundo,
-    corTexto,
-    fonteMarca,
-    simboloMarca
-  ].forEach(function (campo) {
-    campo.addEventListener("input", atualizarPrevia);
-    campo.addEventListener("change", atualizarPrevia);
-  });
-
-  atualizarMarca.addEventListener("click", function () {
-    atualizarPrevia();
-    alert("Sua identidade visual foi atualizada! 💗");
-  });
-
-  baixarMarca.addEventListener("click", function () {
-    atualizarPrevia();
-
-    const largura = 1000;
-    const altura = 700;
-    const canvas = document.createElement("canvas");
-    const contexto = canvas.getContext("2d");
-
-    canvas.width = largura;
-    canvas.height = altura;
-
-    contexto.fillStyle = corFundo.value;
-    contexto.fillRect(0, 0, largura, altura);
-
-    contexto.fillStyle = corTexto.value;
-    contexto.textAlign = "center";
-    contexto.textBaseline = "middle";
-
-    const fonte = fonteMarca.value;
-    const nome = nomeMarca.value.trim() || "Nome da sua marca";
-    const slogan = sloganMarca.value.trim() || "Seu slogan aparecerá aqui";
-    const simbolo = simboloMarca.value;
-
-    contexto.font = "56px " + fonte;
-    contexto.fillText(simbolo, largura / 2, 190);
-
-    let tamanhoFonte = 64;
-
-    contexto.font = "bold " + tamanhoFonte + "px " + fonte;
-
-    while (
-      contexto.measureText(nome).width > largura - 100 &&
-      tamanhoFonte > 24
-    ) {
-      tamanhoFonte -= 2;
-      contexto.font = "bold " + tamanhoFonte + "px " + fonte;
-    }
-
-    contexto.fillText(nome, largura / 2, 310);
-
-    contexto.font = "30px " + fonte;
-
-    const palavras = slogan.split(/\s+/);
-    const linhas = [];
-    let linha = "";
-
-    palavras.forEach(function (palavra) {
-      const teste = linha ? linha + " " + palavra : palavra;
-
-      if (contexto.measureText(teste).width > largura - 140 && linha) {
-        linhas.push(linha);
-        linha = palavra;
-      } else {
-        linha = teste;
-      }
-    });
-
-    if (linha) linhas.push(linha);
-
-    linhas.slice(0, 3).forEach(function (texto, indice) {
-      contexto.fillText(texto, largura / 2, 390 + indice * 42);
-    });
-
-    contexto.globalAlpha = 0.65;
-    contexto.fillRect(largura / 2 - 55, 500, 110, 2);
-    contexto.globalAlpha = 1;
-
-    contexto.font = "18px Arial, sans-serif";
-    contexto.fillText("FEITO COM ESSÊNCIA", largura / 2, 545);
-
-    const link = document.createElement("a");
-    link.download = "minha-marca-prisma-essenza.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  });
-
-  atualizarPrevia();
-})();
-</script>
-   <section class="secao" id="meus-produtos">
-  <div class="cabecalho-secao">
-    <span class="etiqueta">Organize seu catálogo</span>
-    <h2>Meus Produtos</h2>
-    <p>Cadastre seus produtos, organize os custos e acompanhe os preços praticados no seu negócio.</p>
-  </div>
-
-  <div class="cartao produtos-cartao">
-    <h3 id="tituloFormularioProduto">Cadastrar novo produto</h3>
-
-    <form id="formProduto">
-      <input type="hidden" id="produtoId">
-
-      <label for="nomeProduto">Nome do produto</label>
-      <input
-        type="text"
-        id="nomeProduto"
-        maxlength="80"
-        placeholder="Ex.: Caixa de brigadeiros"
-        required
-      >
-
-      <label for="categoriaProduto">Categoria</label>
-      <select id="categoriaProduto" required>
-        <option value="">Selecione uma categoria</option>
-        <option value="Alimentos">Alimentos e doces</option>
-        <option value="Roupas">Roupas e acessórios</option>
-        <option value="Semijoias">Semijoias e bijuterias</option>
-        <option value="Artesanato">Artesanato</option>
-        <option value="Beleza">Beleza e cuidados pessoais</option>
-        <option value="Outros">Outros</option>
-      </select>
-
-      <label for="descricaoProduto">Descrição (opcional)</label>
-      <textarea
-        id="descricaoProduto"
-        maxlength="300"
-        rows="3"
-        placeholder="Descreva seu produto..."
-      ></textarea>
-
-      <label for="custoProduto">Custo por unidade (R$)</label>
-      <input
-        type="number"
-        id="custoProduto"
-        min="0"
-        step="0.01"
-        placeholder="Ex.: 12,50"
-        required
-      >
-
-      <label for="precoProduto">Preço de venda por unidade (R$)</label>
-      <input
-        type="number"
-        id="precoProduto"
-        min="0"
-        step="0.01"
-        placeholder="Ex.: 25,00"
-        required
-      >
-
-      <label for="estoqueProduto">Quantidade em estoque</label>
-      <input
-        type="number"
-        id="estoqueProduto"
-        min="0"
-        step="1"
-        placeholder="Ex.: 15"
-        required
-      >
-
-      <div class="produto-botoes">
-        <button class="botao botao-principal" type="submit" id="botaoSalvarProduto">
-          Cadastrar produto
-        </button>
-
-        <button class="botao" type="button" id="cancelarEdicaoProduto" hidden>
-          Cancelar edição
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <div class="cabecalho-secao produtos-lista-cabecalho">
-    <h2>Meu catálogo</h2>
-    <p id="contadorProdutos">Você ainda não cadastrou produtos.</p>
-  </div>
-
-  <div id="listaProdutos" class="lista-produtos" aria-live="polite">
-    <div class="produto-vazio">
-      <span>📦</span>
-      <h3>Seu catálogo começa aqui!</h3>
-      <p>Cadastre seu primeiro produto para começar a organizar seu negócio.</p>
-    </div>
-  </div>
-</section>
-    <style>
-  #meus-produtos .produtos-cartao {
-    margin-bottom: 30px;
-  }
-
-  #formProduto {
-    display: grid;
-    gap: 10px;
-    max-width: 750px;
-  }
-
-  #formProduto label {
-    margin-top: 8px;
-    font-weight: bold;
-    color: var(--marrom);
-  }
-
-  #formProduto input,
-  #formProduto select,
-  #formProduto textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--borda);
-    border-radius: 8px;
-    background: var(--creme);
-    color: var(--marrom);
-    font: inherit;
-  }
-
-  #formProduto textarea {
-    resize: vertical;
-  }
-
-  #formProduto input:focus,
-  #formProduto select:focus,
-  #formProduto textarea:focus {
-    outline: 2px solid var(--verde);
-    outline-offset: 2px;
-  }
-
-  .produto-botoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 18px;
-  }
-
-  .produto-botoes button {
-    cursor: pointer;
-  }
-
-  .produtos-lista-cabecalho {
-    margin-top: 35px;
-  }
-
-  .lista-produtos {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-  }
-
-  .produto-vazio {
-    grid-column: 1 / -1;
-    padding: 35px 20px;
-    text-align: center;
-    background: #fff;
-    border: 1px dashed var(--borda);
-    border-radius: 12px;
-  }
-
-  .produto-vazio span {
-    font-size: 38px;
-  }
-
-  .produto-vazio h3 {
-    margin: 12px 0;
-    color: var(--marrom);
-  }
-
-  .produto-vazio p {
-    color: var(--marrom);
-    line-height: 1.7;
-  }
-
-  .produto-item {
-    min-width: 0;
-    padding: 22px;
-    background: #fff;
-    border: 1px solid var(--borda);
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(60, 45, 35, 0.05);
-    overflow-wrap: anywhere;
-  }
-
-  .produto-item h3 {
-    margin: 10px 0;
-    color: var(--marrom);
-  }
-
-  .produto-categoria {
-    display: inline-block;
-    padding: 5px 10px;
-    background: #E7EBDD;
-    border-radius: 20px;
-    font-size: 12px;
-  }
-
-  .produto-item p {
-    margin: 8px 0;
-    line-height: 1.6;
-  }
-
-  .produto-item .produto-destaque {
-    margin-top: 15px;
-    padding-top: 12px;
-    border-top: 1px solid var(--borda);
-  }
-
-  .produto-acoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
-  }
-
-  .produto-acoes button {
-    padding: 8px 12px;
-    border: 1px solid var(--borda);
-    border-radius: 7px;
-    background: var(--creme);
-    color: var(--marrom);
-    cursor: pointer;
-    font: inherit;
-  }
-
-  .produto-acoes button:hover {
-    background: #E7EBDD;
-  }
-
-  @media (max-width: 900px) {
-    .lista-produtos {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 600px) {
-    .lista-produtos {
-      grid-template-columns: 1fr;
-    }
-
-    .produto-botoes {
-      flex-direction: column;
-    }
-
-    .produto-botoes button {
-      width: 100%;
-    }
-  }
-</style>
- ```html
-<section class="controle-financeiro" id="controle-financeiro">
-    <div class="financeiro-container">
-        <span class="etiqueta">ORGANIZE SEU NEGÓCIO</span>
-        <h2>Controle Financeiro</h2>
-        <p class="financeiro-intro">
-            Acompanhe o dinheiro que entra e sai do seu negócio
-            e tenha mais clareza para tomar suas decisões.
-        </p>
-
-        <div class="financeiro-resumo">
-            <div class="financeiro-card entradas">
-                <span>Total de entradas</span>
-                <strong id="total-entradas">R$ 0,00</strong>
+    <section class="ferramenta" id="custos">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Preço com propósito</div><h2>Calculadora de custos</h2><p>Preencha os valores para estimar o custo total e o preço sugerido por unidade.</p></div>
+        <div class="painel">
+          <form id="form-custos">
+            <div class="form-grid">
+              <div class="campo"><label for="nome-custo">Produto ou serviço</label><input id="nome-custo" placeholder="Ex.: caderno artesanal" required></div>
+              <div class="campo"><label for="quantidade-custo">Quantidade produzida</label><input id="quantidade-custo" type="number" min="1" step="1" value="1" required></div>
+              <div class="campo"><label for="materiais-custo">Materiais (R$)</label><input id="materiais-custo" type="number" min="0" step="0.01" value="0" required></div>
+              <div class="campo"><label for="mao-custo">Mão de obra (R$)</label><input id="mao-custo" type="number" min="0" step="0.01" value="0" required></div>
+              <div class="campo"><label for="outros-custo">Outras despesas (R$)</label><input id="outros-custo" type="number" min="0" step="0.01" value="0" required></div>
+              <div class="campo"><label for="margem-custo">Margem desejada (%)</label><input id="margem-custo" type="number" min="0" max="95" step="1" value="30" required></div>
             </div>
-
-            <div class="financeiro-card saidas">
-                <span>Total de despesas</span>
-                <strong id="total-despesas">R$ 0,00</strong>
-            </div>
-
-            <div class="financeiro-card saldo">
-                <span>Saldo atual</span>
-                <strong id="saldo-atual">R$ 0,00</strong>
-            </div>
+            <div class="acoes"><button type="submit">Calcular preço</button><button type="reset" class="secundario">Limpar</button></div>
+          </form>
+          <div class="resultado" id="resultado-custos" aria-live="polite"></div>
+          <p class="nota">Estimativa simplificada: não substitui uma análise contábil. Tributos, taxas de venda e outros custos devem ser considerados separadamente, quando aplicáveis.</p>
         </div>
-
-        <div class="financeiro-formulario">
-            <h3>Registrar movimentação</h3>
-
-            <label for="tipo-movimentacao">Tipo de movimentação</label>
-            <select id="tipo-movimentacao">
-                <option value="entrada">Entrada de dinheiro</option>
-                <option value="despesa">Saída de dinheiro / Despesa</option>
-            </select>
-
-            <label for="descricao-movimentacao">Descrição</label>
-            <input
-                type="text"
-                id="descricao-movimentacao"
-                placeholder="Ex.: venda de brigadeiros ou compra de embalagens"
-            >
-
-            <label for="valor-movimentacao">Valor (R$)</label>
-            <input
-                type="number"
-                id="valor-movimentacao"
-                placeholder="Ex.: 50,00"
-                min="0.01"
-                step="0.01"
-            >
-
-            <label for="data-movimentacao">Data</label>
-            <input type="date" id="data-movimentacao">
-
-            <button type="button" id="btn-registrar-movimentacao">
-                Registrar movimentação
-            </button>
-        </div>
-
-        <div class="financeiro-historico">
-            <h3>Histórico financeiro</h3>
-            <p id="mensagem-financeiro">
-                Suas movimentações aparecerão aqui.
-            </p>
-            <div id="lista-movimentacoes"></div>
-        </div>
-    </div>
-</section>
-```
-    <section class="frase">
-      <h2>Pequenos negócios também merecem grandes oportunidades.</h2>
-      <p>Conhecimento, organização e criatividade para crescer com mais confiança.</p>
-    </section>
-
-    <section class="secao" id="sobre">
-      <div class="cabecalho-secao">
-        <span class="etiqueta">Sobre o Prisma Essenza</span>
-        <h2>Empreender não precisa ser um caminho solitário.</h2>
-        <p>
-          O Prisma Essenza é uma proposta de plataforma digital de apoio
-          a pequenos empreendedores. A iniciativa busca tornar ferramentas
-          de organização, planejamento e comunicação mais acessíveis,
-          contribuindo para o desenvolvimento e o fortalecimento de pequenos negócios.
-        </p>
       </div>
     </section>
+
+    <section id="financeiro">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Clareza para decidir</div><h2>Meu controle financeiro</h2><p>Registre cada movimentação e tenha uma visão simples do dinheiro que entra e sai.</p></div>
+        <div class="painel">
+          <form id="form-financeiro">
+            <div class="form-grid">
+              <div class="campo"><label for="tipo-movimentacao">Tipo de movimentação</label><select id="tipo-movimentacao" required><option value="entrada">Entrada</option><option value="despesa">Despesa</option></select></div>
+              <div class="campo"><label for="descricao-movimentacao">Descrição</label><input id="descricao-movimentacao" maxlength="100" placeholder="Ex.: venda de produto" required></div>
+              <div class="campo"><label for="valor-movimentacao">Valor (R$)</label><input id="valor-movimentacao" type="number" min="0.01" step="0.01" placeholder="0,00" required></div>
+              <div class="campo"><label for="data-movimentacao">Data</label><input id="data-movimentacao" type="date" required></div>
+            </div>
+            <div class="acoes"><button type="submit" id="btn-registrar-movimentacao">Registrar movimentação</button></div>
+            <p id="mensagem-financeiro" class="nota" role="status"></p>
+          </form>
+          <div class="resumo-financeiro">
+            <div class="resumo-item"><span>Total de entradas</span><strong id="total-entradas" class="positivo">R$ 0,00</strong></div>
+            <div class="resumo-item"><span>Total de despesas</span><strong id="total-despesas" class="negativo">R$ 0,00</strong></div>
+            <div class="resumo-item"><span>Saldo atual</span><strong id="saldo-atual">R$ 0,00</strong></div>
+          </div>
+          <h3 class="subtitulo">Histórico de movimentações</h3>
+          <div id="lista-movimentacoes" class="lista"><p class="nota">Nenhuma movimentação registrada ainda.</p></div>
+          <div class="acoes"><button type="button" class="secundario" id="exportar-financeiro">Baixar histórico em CSV</button><button type="button" class="perigo" id="limpar-financeiro">Apagar todo o histórico</button></div>
+          <p class="nota">Os dados ficam salvos no armazenamento local deste navegador/dispositivo. Eles não são enviados para uma conta ou sincronizados automaticamente com outros aparelhos. Evite usar este controle como único registro financeiro oficial.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ferramenta" id="marca">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Estúdio de marca</div><h2>Encontre a essência da sua marca</h2><p>Preencha os campos para montar um resumo da identidade do seu projeto.</p></div>
+        <div class="painel">
+          <form id="form-marca">
+            <div class="form-grid">
+              <div class="campo"><label for="marca-nome">Nome da marca ou projeto</label><input id="marca-nome" placeholder="Nome da sua marca" required></div>
+              <div class="campo"><label for="marca-publico">Público que deseja alcançar</label><input id="marca-publico" placeholder="Ex.: pessoas que amam papelaria" required></div>
+              <div class="campo largo"><label for="marca-proposito">Propósito da marca</label><textarea id="marca-proposito" rows="3" placeholder="Por que ela existe? O que quer oferecer?" required></textarea></div>
+              <div class="campo"><label for="marca-personalidade">Personalidade</label><select id="marca-personalidade"><option>Elegante e minimalista</option><option>Acolhedora e delicada</option><option>Ousada e criativa</option><option>Natural e sustentável</option><option>Divertida e espontânea</option></select></div>
+              <div class="campo"><label for="marca-cores">Cores principais</label><input id="marca-cores" placeholder="Ex.: verde-sálvia, creme e dourado"></div>
+            </div>
+            <div class="acoes"><button type="submit">Gerar meu resumo</button><button type="button" class="secundario" id="salvar-marca">Salvar neste dispositivo</button><button type="button" class="secundario" id="carregar-marca">Carregar marca salva</button></div>
+          </form>
+          <div class="resultado" id="resultado-marca" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="produtos">
+      <div class="container">
+        <div class="section-head"><div class="eyebrow">Seu catálogo</div><h2>Meus produtos</h2><p>Crie uma lista simples dos produtos ou serviços que deseja acompanhar.</p></div>
+        <div class="painel">
+          <form id="form-produto">
+            <div class="form-grid">
+              <div class="campo"><label for="produto-nome">Nome do produto</label><input id="produto-nome" maxlength="100" placeholder="Ex.: bloco de anotações" required></div>
+              <div class="campo"><label for="produto-preco">Preço (R$)</label><input id="produto-preco" type="number" min="0" step="0.01" placeholder="0,00" required></div>
+              <div class="campo largo"><label for="produto-descricao">Descrição (opcional)</label><textarea id="produto-descricao" rows="2" maxlength="300" placeholder="Detalhes do produto ou serviço"></textarea></div>
+            </div>
+            <div class="acoes"><button type="submit" id="btn-salvar-produto">Adicionar produto</button><button type="reset" class="secundario">Limpar campos</button></div>
+          </form>
+          <div id="lista-produtos" class="lista"><p class="nota">Nenhum produto cadastrado ainda.</p></div>
+          <p class="nota">O catálogo também fica salvo somente neste navegador/dispositivo.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="container frase">“A clareza transforma intenção em caminho.”</div>
   </main>
-
-  <footer>
-    <div>
-      <div class="logo">PRISMA <span>ESSENZA</span></div>
-      <p>Sua essência, seu negócio, seu crescimento.</p>
-    </div>
-    <p>Projeto acadêmico de extensão · UNIP</p>
-  </footer>
+  <footer><div class="container">Prisma Essenza · Um espaço para criar, organizar e florescer.</div></footer>
 
   <script>
-    function mostrarAviso(ferramenta) {
-      const mensagens = {
-        marca: "O Studio de Marca será desenvolvido nesta próxima etapa, com personalização de cores, fontes e elementos visuais.",
-        precos: "A calculadora permitirá informar os custos e a quantidade produzida para estimar o custo unitário e o preço de venda.",
-        produtos: "Nesta área, você poderá cadastrar, editar e organizar os produtos do seu negócio.",
-        financeiro: "Aqui construiremos o registro de vendas e despesas para acompanhar a movimentação financeira.",
-        resultados: "Esta área apresentará indicadores e gráficos calculados a partir dos dados cadastrados.",
-        divulgacao: "Esta ferramenta ajudará a elaborar ideias e textos para divulgar seus produtos nas redes sociais."
+    (() => {
+      "use strict";
+      const dinheiro = valor => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Number(valor) || 0);
+      const dataHoje = () => {
+        const agora = new Date();
+        const local = new Date(agora.getTime() - agora.getTimezoneOffset() * 60000);
+        return local.toISOString().slice(0, 10);
       };
+      const ler = chave => {
+        try { const dados = JSON.parse(localStorage.getItem(chave) || "[]"); return Array.isArray(dados) ? dados : []; }
+        catch { return []; }
+      };
+      const gravar = (chave, dados) => localStorage.setItem(chave, JSON.stringify(dados));
 
-      const aviso = document.getElementById("aviso");
-      aviso.textContent = mensagens[ferramenta] || "Esta ferramenta será desenvolvida nas próximas etapas.";
-      aviso.style.display = "block";
-      aviso.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }
-  </script>
-<script>
-(function () {
-  const chave = "prismaEssenzaProdutos";
+      // Calculadora de custos
+      const formCustos = document.getElementById("form-custos");
+      formCustos.addEventListener("submit", evento => {
+        evento.preventDefault();
+        const nome = document.getElementById("nome-custo").value.trim();
+        const quantidade = Number(document.getElementById("quantidade-custo").value);
+        const materiais = Number(document.getElementById("materiais-custo").value);
+        const mao = Number(document.getElementById("mao-custo").value);
+        const outros = Number(document.getElementById("outros-custo").value);
+        const margem = Number(document.getElementById("margem-custo").value);
+        if (!nome || quantidade < 1 || [materiais, mao, outros, margem].some(n => !Number.isFinite(n) || n < 0) || margem > 95) {
+          alert("Confira os campos. A margem deve estar entre 0% e 95%."); return;
+        }
+        const total = materiais + mao + outros;
+        const unitario = total / quantidade;
+        const preco = unitario / (1 - margem / 100);
+        const resultado = document.getElementById("resultado-custos");
+        resultado.innerHTML = `<strong>Estimativa para ${escapar(nome)}</strong><br>Custo total do lote: <strong>${dinheiro(total)}</strong><br>Custo por unidade: <strong>${dinheiro(unitario)}</strong><br>Preço sugerido por unidade: <strong>${dinheiro(preco)}</strong><br><span class="nota">Margem aplicada sobre o preço de venda: ${margem.toLocaleString("pt-BR")}%.</span>`;
+        resultado.classList.add("visivel");
+      });
+      formCustos.addEventListener("reset", () => document.getElementById("resultado-custos").classList.remove("visivel"));
 
-  const formulario = document.getElementById("formProduto");
-  const lista = document.getElementById("listaProdutos");
-  const contador = document.getElementById("contadorProdutos");
-  const titulo = document.getElementById("tituloFormularioProduto");
-  const botaoSalvar = document.getElementById("botaoSalvarProduto");
-  const botaoCancelar = document.getElementById("cancelarEdicaoProduto");
-
-  if (!formulario || !lista) return;
-
-  let produtos = [];
-
-  try {
-    const salvos = JSON.parse(localStorage.getItem(chave) || "[]");
-    produtos = Array.isArray(salvos) ? salvos : [];
-  } catch (erro) {
-    produtos = [];
-  }
-
-  const campo = id => document.getElementById(id);
-
-  const dinheiro = valor => Number(valor).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  });
-
-  function salvar() {
-    localStorage.setItem(chave, JSON.stringify(produtos));
-  }
-
-  function limparFormulario() {
-    formulario.reset();
-    campo("produtoId").value = "";
-    titulo.textContent = "Cadastrar novo produto";
-    botaoSalvar.textContent = "Cadastrar produto";
-    botaoCancelar.hidden = true;
-  }
-
-  function criarElemento(tag, classe, texto) {
-    const elemento = document.createElement(tag);
-    if (classe) elemento.className = classe;
-    if (texto !== undefined) elemento.textContent = texto;
-    return elemento;
-  }
-
-  function renderizar() {
-    lista.replaceChildren();
-
-    if (produtos.length === 0) {
-      const vazio = criarElemento("div", "produto-vazio");
-      vazio.append(
-        criarElemento("span", "", "📦"),
-        criarElemento("h3", "", "Seu catálogo começa aqui!"),
-        criarElemento("p", "", "Cadastre seu primeiro produto para começar a organizar seu negócio.")
-      );
-      lista.appendChild(vazio);
-      contador.textContent = "Você ainda não cadastrou produtos.";
-      return;
-    }
-
-    contador.textContent =
-      produtos.length === 1
-        ? "Você tem 1 produto cadastrado."
-        : `Você tem ${produtos.length} produtos cadastrados.`;
-
-    produtos.forEach(produto => {
-      const cartao = criarElemento("article", "produto-item");
-      cartao.appendChild(criarElemento("span", "produto-categoria", produto.categoria));
-      cartao.appendChild(criarElemento("h3", "", produto.nome));
-
-      if (produto.descricao) {
-        cartao.appendChild(criarElemento("p", "", produto.descricao));
+      function escapar(texto) {
+        return String(texto).replace(/[&<>"']/g, caractere => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[caractere]));
       }
 
-      const detalhes = criarElemento("div", "produto-destaque");
-      detalhes.appendChild(criarElemento("p", "", `Custo por unidade: ${dinheiro(produto.custo)}`));
-      detalhes.appendChild(criarElemento("p", "", `Preço de venda: ${dinheiro(produto.preco)}`));
-      detalhes.appendChild(criarElemento("p", "", `Estoque: ${produto.estoque} unidade(s)`));
+      // Controle financeiro
+      const chaveFinanceiro = "prismaEssenzaMovimentacoes";
+      const formFinanceiro = document.getElementById("form-financeiro");
+      const dataInput = document.getElementById("data-movimentacao");
+      const listaFinanceira = document.getElementById("lista-movimentacoes");
+      dataInput.value = dataHoje();
 
-      const diferenca = produto.preco - produto.custo;
-      detalhes.appendChild(
-        criarElemento("p", "", `Diferença por unidade: ${dinheiro(diferenca)}`)
-      );
+      function atualizarResumo() {
+        const movimentacoes = ler(chaveFinanceiro);
+        const entradas = movimentacoes.filter(item => item.tipo === "entrada").reduce((soma, item) => soma + Number(item.valor), 0);
+        const despesas = movimentacoes.filter(item => item.tipo === "despesa").reduce((soma, item) => soma + Number(item.valor), 0);
+        const saldo = entradas - despesas;
+        document.getElementById("total-entradas").textContent = dinheiro(entradas);
+        document.getElementById("total-despesas").textContent = dinheiro(despesas);
+        const saldoEl = document.getElementById("saldo-atual");
+        saldoEl.textContent = dinheiro(saldo);
+        saldoEl.className = saldo < 0 ? "negativo" : "positivo";
+      }
+      function exibirMovimentacoes() {
+        const movimentacoes = ler(chaveFinanceiro).sort((a, b) => (b.data || "").localeCompare(a.data || ""));
+        listaFinanceira.replaceChildren();
+        if (!movimentacoes.length) {
+          const vazio = document.createElement("p"); vazio.className = "nota"; vazio.textContent = "Nenhuma movimentação registrada ainda.";
+          listaFinanceira.appendChild(vazio); return;
+        }
+        movimentacoes.forEach(item => {
+          const linha = document.createElement("div"); linha.className = "linha-lista";
+          const info = document.createElement("div");
+          const nome = document.createElement("strong"); nome.textContent = item.descricao;
+          const detalhe = document.createElement("small");
+          const dataLegivel = item.data ? new Date(item.data + "T12:00:00").toLocaleDateString("pt-BR") : "";
+          detalhe.textContent = `${item.tipo === "entrada" ? "Entrada" : "Despesa"} · ${dataLegivel}`;
+          info.append(nome, detalhe);
+          const direita = document.createElement("div"); direita.style.display = "flex"; direita.style.alignItems = "center"; direita.style.gap = "10px";
+          const valor = document.createElement("span"); valor.className = "valor " + (item.tipo === "entrada" ? "positivo" : "negativo");
+          valor.textContent = `${item.tipo === "entrada" ? "+" : "−"} ${dinheiro(item.valor)}`;
+          const excluir = document.createElement("button"); excluir.type = "button"; excluir.className = "perigo"; excluir.textContent = "Excluir";
+          excluir.setAttribute("aria-label", "Excluir movimentação " + item.descricao);
+          excluir.addEventListener("click", () => {
+            if (!confirm("Deseja excluir esta movimentação?")) return;
+            gravar(chaveFinanceiro, ler(chaveFinanceiro).filter(mov => mov.id !== item.id));
+            atualizarResumo(); exibirMovimentacoes();
+          });
+          direita.append(valor, excluir); linha.append(info, direita); listaFinanceira.appendChild(linha);
+        });
+      }
+      formFinanceiro.addEventListener("submit", evento => {
+        evento.preventDefault();
+        const tipo = document.getElementById("tipo-movimentacao").value;
+        const descricao = document.getElementById("descricao-movimentacao").value.trim();
+        const valor = Number(document.getElementById("valor-movimentacao").value);
+        const data = dataInput.value;
+        if (!descricao || !Number.isFinite(valor) || valor <= 0 || !data) {
+          document.getElementById("mensagem-financeiro").textContent = "Preencha a descrição, o valor e a data corretamente."; return;
+        }
+        const movimentacoes = ler(chaveFinanceiro);
+        movimentacoes.push({ id: (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random(), tipo, descricao, valor, data });
+        gravar(chaveFinanceiro, movimentacoes);
+        formFinanceiro.reset(); dataInput.value = dataHoje();
+        document.getElementById("mensagem-financeiro").textContent = "Movimentação registrada com sucesso!";
+        atualizarResumo(); exibirMovimentacoes();
+      });
+      document.getElementById("limpar-financeiro").addEventListener("click", () => {
+        if (!ler(chaveFinanceiro).length) { alert("Não há movimentações para apagar."); return; }
+        if (!confirm("Tem certeza de que deseja apagar todo o histórico financeiro? Esta ação não pode ser desfeita.")) return;
+        gravar(chaveFinanceiro, []); atualizarResumo(); exibirMovimentacoes();
+        document.getElementById("mensagem-financeiro").textContent = "Histórico apagado.";
+      });
+      document.getElementById("exportar-financeiro").addEventListener("click", () => {
+        const dados = ler(chaveFinanceiro);
+        if (!dados.length) { alert("Registre pelo menos uma movimentação antes de exportar."); return; }
+        const csv = [["Tipo", "Descrição", "Valor", "Data"], ...dados.map(item => [item.tipo, item.descricao, Number(item.valor).toFixed(2).replace(".", ","), item.data])]
+          .map(linha => linha.map(campo => `"${String(campo).replace(/"/g, '""')}"`).join(";")).join("\r\n");
+        const arquivo = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(arquivo); const link = document.createElement("a");
+        link.href = url; link.download = "historico-financeiro.csv"; link.click(); URL.revokeObjectURL(url);
+      });
+      atualizarResumo(); exibirMovimentacoes();
 
-      cartao.appendChild(detalhes);
+      // Estúdio de marca
+      const formMarca = document.getElementById("form-marca");
+      const camposMarca = ["marca-nome", "marca-publico", "marca-proposito", "marca-personalidade", "marca-cores"];
+      function dadosMarca() {
+        return Object.fromEntries(camposMarca.map(id => [id, document.getElementById(id).value.trim()]));
+      }
+      function preencherMarca(dados) {
+        camposMarca.forEach(id => { if (dados[id] !== undefined) document.getElementById(id).value = dados[id]; });
+      }
+      function gerarResumoMarca() {
+        const dados = dadosMarca();
+        const resultado = document.getElementById("resultado-marca");
+        resultado.innerHTML = `<h3>${escapar(dados["marca-nome"] || "Minha marca")}</h3><p><strong>Para quem:</strong> ${escapar(dados["marca-publico"] || "Público a definir")}</p><p><strong>Propósito:</strong> ${escapar(dados["marca-proposito"] || "Propósito a definir")}</p><p><strong>Personalidade:</strong> ${escapar(dados["marca-personalidade"] || "A definir")}</p><p><strong>Cores:</strong> ${escapar(dados["marca-cores"] || "A definir")}</p>`;
+        resultado.classList.add("visivel");
+      }
+      formMarca.addEventListener("submit", evento => { evento.preventDefault(); gerarResumoMarca(); });
+      document.getElementById("salvar-marca").addEventListener("click", () => {
+        gravar("prismaEssenzaMarca", dadosMarca());
+        gerarResumoMarca(); document.getElementById("resultado-marca").insertAdjacentHTML("beforeend", "<p class='positivo'><strong>Marca salva neste dispositivo.</strong></p>");
+      });
+      document.getElementById("carregar-marca").addEventListener("click", () => {
+        try {
+          const dados = JSON.parse(localStorage.getItem("prismaEssenzaMarca") || "null");
+          if (!dados) { alert("Ainda não existe uma marca salva neste dispositivo."); return; }
+          preencherMarca(dados); gerarResumoMarca();
+        } catch { alert("Não foi possível carregar os dados salvos."); }
+      });
 
-      const acoes = criarElemento("div", "produto-acoes");
-
-      const editar = criarElemento("button", "", "Editar");
-      editar.type = "button";
-      editar.addEventListener("click", () => editarProduto(produto.id));
-
-      const excluir = criarElemento("button", "", "Excluir");
-      excluir.type = "button";
-      excluir.addEventListener("click", () => excluirProduto(produto.id));
-
-      acoes.append(editar, excluir);
-      cartao.appendChild(acoes);
-      lista.appendChild(cartao);
-    });
-  }
-
-  function editarProduto(id) {
-    const produto = produtos.find(item => item.id === id);
-    if (!produto) return;
-
-    campo("produtoId").value = produto.id;
-    campo("nomeProduto").value = produto.nome;
-    campo("categoriaProduto").value = produto.categoria;
-    campo("descricaoProduto").value = produto.descricao;
-    campo("custoProduto").value = produto.custo;
-    campo("precoProduto").value = produto.preco;
-    campo("estoqueProduto").value = produto.estoque;
-
-    titulo.textContent = "Editar produto";
-    botaoSalvar.textContent = "Salvar alterações";
-    botaoCancelar.hidden = false;
-
-    formulario.scrollIntoView({ behavior: "smooth", block: "start" });
-    campo("nomeProduto").focus();
-  }
-
-  function excluirProduto(id) {
-    const produto = produtos.find(item => item.id === id);
-    if (!produto) return;
-
-    if (!confirm(`Deseja excluir "${produto.nome}" do seu catálogo?`)) {
-      return;
-    }
-
-    produtos = produtos.filter(item => item.id !== id);
-    salvar();
-    renderizar();
-
-    if (campo("produtoId").value === id) {
-      limparFormulario();
-    }
-  }
-
-  formulario.addEventListener("submit", function (evento) {
-    evento.preventDefault();
-
-    const nome = campo("nomeProduto").value.trim();
-    const categoria = campo("categoriaProduto").value;
-    const descricao = campo("descricaoProduto").value.trim();
-    const custo = Number(campo("custoProduto").value);
-    const preco = Number(campo("precoProduto").value);
-    const estoqueTexto = campo("estoqueProduto").value;
-    const estoque = Number(estoqueTexto);
-    const idAtual = campo("produtoId").value;
-
-    if (
-      !nome ||
-      !categoria ||
-      campo("custoProduto").value === "" ||
-      campo("precoProduto").value === "" ||
-      estoqueTexto === "" ||
-      !Number.isFinite(custo) ||
-      !Number.isFinite(preco) ||
-      !Number.isInteger(estoque) ||
-      custo < 0 ||
-      preco < 0 ||
-      estoque < 0
-    ) {
-      alert("Confira os campos. Os valores não podem ser negativos e o estoque deve ser um número inteiro igual ou maior que zero.");
-      return;
-    }
-
-    const produto = {
-      id: idAtual || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
-      nome,
-      categoria,
-      descricao,
-      custo,
-      preco,
-      estoque
-    };
-
-    if (idAtual) {
-      produtos = produtos.map(item => item.id === idAtual ? produto : item);
-    } else {
-      produtos.push(produto);
-    }
-
-    try {
-      salvar();
-    } catch (erro) {
-      alert("Não foi possível salvar os produtos neste navegador. Verifique o espaço disponível.");
-      return;
-    }
-
-    limparFormulario();
-    renderizar();
-    alert("Produto salvo com sucesso! 💗");
-  });
-
-  botaoCancelar.addEventListener("click", limparFormulario);
-
-  renderizar();
-})();
-</script>
-</body
+      // Meus produtos
+      const chaveProdutos = "prismaEssenzaProdutos";
+      const formProduto = document.getElementById("form-produto");
+      const listaProdutos = document.getElementById("lista-produtos");
+      function renderizarProdutos() {
+        const produtos = ler(chaveProdutos);
+        listaProdutos.replaceChildren();
+        if (!produtos.length) {
+          const vazio = document.createElement("p"); vazio.className = "nota"; vazio.textContent = "Nenhum produto cadastrado ainda.";
+          listaProdutos.appendChild(vazio); return;
+        }
+        produtos.forEach(produto => {
+          const linha = document.createElement("div"); linha.className = "linha-lista";
+          const info = document.createElement("div");
+          const nome = document.createElement("strong"); nome.textContent = produto.nome;
+          const descricao = document.createElement("small"); descricao.textContent = produto.descricao || "Sem descrição";
+          info.append(nome, descricao);
+          const direita = document.createElement("div"); direita.style.display = "flex"; direita.style.alignItems = "center"; direita.style.gap = "10px";
+          const preco = document.createElement("span"); preco.className = "valor"; preco.textContent = dinheiro(produto.preco);
+          const excluir = document.createElement("button"); excluir.type = "button"; excluir.className = "perigo"; excluir.textContent = "Excluir";
+          excluir.addEventListener("click", () => {
+            if (!confirm(`Excluir o produto "${produto.nome}"?`)) return;
+            gravar(chaveProdutos, ler(chaveProdutos).filter(item => item.id !== produto.id)); renderizarProdutos();
+          });
+          direita.append(preco, excluir); linha.append(info, direita); listaProdutos.appendChild(linha);
+        });
+      }
+      formProduto.addEventListener("submit", evento => {
+        evento.preventDefault();
+        const nome = document.getElementById("produto-nome").value.trim();
+        const preco = Number(document.getElementById("produto-preco").value);
+        const descricao = document.getElementById("produto-descricao").value.trim();
+        if (!nome || !Number.isFinite(preco) || preco < 0) { alert("Confira o nome e o preço do produto."); return; }
+        const produtos = ler(chaveProdutos);
+        produtos.push({ id: (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random(), nome, preco, descricao });
+        gravar(chaveProdutos, produtos); formProduto.reset(); renderizarProdutos();
+        document.getElementById("btn-salvar-produto").textContent = "Adicionar produto";
+      });
+      renderizarProdutos();
+    })();
+  </script>
+</body>
 </html>
