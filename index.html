@@ -948,6 +948,261 @@ x```html
   atualizarPrevia();
 })();
 </script>
+   <section class="secao" id="meus-produtos">
+  <div class="cabecalho-secao">
+    <span class="etiqueta">Organize seu catálogo</span>
+    <h2>Meus Produtos</h2>
+    <p>Cadastre seus produtos, organize os custos e acompanhe os preços praticados no seu negócio.</p>
+  </div>
+
+  <div class="cartao produtos-cartao">
+    <h3 id="tituloFormularioProduto">Cadastrar novo produto</h3>
+
+    <form id="formProduto">
+      <input type="hidden" id="produtoId">
+
+      <label for="nomeProduto">Nome do produto</label>
+      <input
+        type="text"
+        id="nomeProduto"
+        maxlength="80"
+        placeholder="Ex.: Caixa de brigadeiros"
+        required
+      >
+
+      <label for="categoriaProduto">Categoria</label>
+      <select id="categoriaProduto" required>
+        <option value="">Selecione uma categoria</option>
+        <option value="Alimentos">Alimentos e doces</option>
+        <option value="Roupas">Roupas e acessórios</option>
+        <option value="Semijoias">Semijoias e bijuterias</option>
+        <option value="Artesanato">Artesanato</option>
+        <option value="Beleza">Beleza e cuidados pessoais</option>
+        <option value="Outros">Outros</option>
+      </select>
+
+      <label for="descricaoProduto">Descrição (opcional)</label>
+      <textarea
+        id="descricaoProduto"
+        maxlength="300"
+        rows="3"
+        placeholder="Descreva seu produto..."
+      ></textarea>
+
+      <label for="custoProduto">Custo por unidade (R$)</label>
+      <input
+        type="number"
+        id="custoProduto"
+        min="0"
+        step="0.01"
+        placeholder="Ex.: 12,50"
+        required
+      >
+
+      <label for="precoProduto">Preço de venda por unidade (R$)</label>
+      <input
+        type="number"
+        id="precoProduto"
+        min="0"
+        step="0.01"
+        placeholder="Ex.: 25,00"
+        required
+      >
+
+      <label for="estoqueProduto">Quantidade em estoque</label>
+      <input
+        type="number"
+        id="estoqueProduto"
+        min="0"
+        step="1"
+        placeholder="Ex.: 15"
+        required
+      >
+
+      <div class="produto-botoes">
+        <button class="botao botao-principal" type="submit" id="botaoSalvarProduto">
+          Cadastrar produto
+        </button>
+
+        <button class="botao" type="button" id="cancelarEdicaoProduto" hidden>
+          Cancelar edição
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="cabecalho-secao produtos-lista-cabecalho">
+    <h2>Meu catálogo</h2>
+    <p id="contadorProdutos">Você ainda não cadastrou produtos.</p>
+  </div>
+
+  <div id="listaProdutos" class="lista-produtos" aria-live="polite">
+    <div class="produto-vazio">
+      <span>📦</span>
+      <h3>Seu catálogo começa aqui!</h3>
+      <p>Cadastre seu primeiro produto para começar a organizar seu negócio.</p>
+    </div>
+  </div>
+</section>
+    <style>
+  #meus-produtos .produtos-cartao {
+    margin-bottom: 30px;
+  }
+
+  #formProduto {
+    display: grid;
+    gap: 10px;
+    max-width: 750px;
+  }
+
+  #formProduto label {
+    margin-top: 8px;
+    font-weight: bold;
+    color: var(--marrom);
+  }
+
+  #formProduto input,
+  #formProduto select,
+  #formProduto textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: var(--creme);
+    color: var(--marrom);
+    font: inherit;
+  }
+
+  #formProduto textarea {
+    resize: vertical;
+  }
+
+  #formProduto input:focus,
+  #formProduto select:focus,
+  #formProduto textarea:focus {
+    outline: 2px solid var(--verde);
+    outline-offset: 2px;
+  }
+
+  .produto-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .produto-botoes button {
+    cursor: pointer;
+  }
+
+  .produtos-lista-cabecalho {
+    margin-top: 35px;
+  }
+
+  .lista-produtos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .produto-vazio {
+    grid-column: 1 / -1;
+    padding: 35px 20px;
+    text-align: center;
+    background: #fff;
+    border: 1px dashed var(--borda);
+    border-radius: 12px;
+  }
+
+  .produto-vazio span {
+    font-size: 38px;
+  }
+
+  .produto-vazio h3 {
+    margin: 12px 0;
+    color: var(--marrom);
+  }
+
+  .produto-vazio p {
+    color: var(--marrom);
+    line-height: 1.7;
+  }
+
+  .produto-item {
+    min-width: 0;
+    padding: 22px;
+    background: #fff;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(60, 45, 35, 0.05);
+    overflow-wrap: anywhere;
+  }
+
+  .produto-item h3 {
+    margin: 10px 0;
+    color: var(--marrom);
+  }
+
+  .produto-categoria {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #E7EBDD;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .produto-item p {
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+
+  .produto-item .produto-destaque {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid var(--borda);
+  }
+
+  .produto-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .produto-acoes button {
+    padding: 8px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 7px;
+    background: var(--creme);
+    color: var(--marrom);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .produto-acoes button:hover {
+    background: #E7EBDD;
+  }
+
+  @media (max-width: 900px) {
+    .lista-produtos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .lista-produtos {
+      grid-template-columns: 1fr;
+    }
+
+    .produto-botoes {
+      flex-direction: column;
+    }
+
+    .produto-botoes button {
+      width: 100%;
+    }
+  }
+</style>
     <section class="frase">
       <h2>Pequenos negócios também merecem grandes oportunidades.</h2>
       <p>Conhecimento, organização e criatividade para crescer com mais confiança.</p>
@@ -992,6 +1247,209 @@ x```html
       aviso.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   </script>
-</body>
+<script>
+(function () {
+  const chave = "prismaEssenzaProdutos";
+
+  const formulario = document.getElementById("formProduto");
+  const lista = document.getElementById("listaProdutos");
+  const contador = document.getElementById("contadorProdutos");
+  const titulo = document.getElementById("tituloFormularioProduto");
+  const botaoSalvar = document.getElementById("botaoSalvarProduto");
+  const botaoCancelar = document.getElementById("cancelarEdicaoProduto");
+
+  if (!formulario || !lista) return;
+
+  let produtos = [];
+
+  try {
+    const salvos = JSON.parse(localStorage.getItem(chave) || "[]");
+    produtos = Array.isArray(salvos) ? salvos : [];
+  } catch (erro) {
+    produtos = [];
+  }
+
+  const campo = id => document.getElementById(id);
+
+  const dinheiro = valor => Number(valor).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+  function salvar() {
+    localStorage.setItem(chave, JSON.stringify(produtos));
+  }
+
+  function limparFormulario() {
+    formulario.reset();
+    campo("produtoId").value = "";
+    titulo.textContent = "Cadastrar novo produto";
+    botaoSalvar.textContent = "Cadastrar produto";
+    botaoCancelar.hidden = true;
+  }
+
+  function criarElemento(tag, classe, texto) {
+    const elemento = document.createElement(tag);
+    if (classe) elemento.className = classe;
+    if (texto !== undefined) elemento.textContent = texto;
+    return elemento;
+  }
+
+  function renderizar() {
+    lista.replaceChildren();
+
+    if (produtos.length === 0) {
+      const vazio = criarElemento("div", "produto-vazio");
+      vazio.append(
+        criarElemento("span", "", "📦"),
+        criarElemento("h3", "", "Seu catálogo começa aqui!"),
+        criarElemento("p", "", "Cadastre seu primeiro produto para começar a organizar seu negócio.")
+      );
+      lista.appendChild(vazio);
+      contador.textContent = "Você ainda não cadastrou produtos.";
+      return;
+    }
+
+    contador.textContent =
+      produtos.length === 1
+        ? "Você tem 1 produto cadastrado."
+        : `Você tem ${produtos.length} produtos cadastrados.`;
+
+    produtos.forEach(produto => {
+      const cartao = criarElemento("article", "produto-item");
+      cartao.appendChild(criarElemento("span", "produto-categoria", produto.categoria));
+      cartao.appendChild(criarElemento("h3", "", produto.nome));
+
+      if (produto.descricao) {
+        cartao.appendChild(criarElemento("p", "", produto.descricao));
+      }
+
+      const detalhes = criarElemento("div", "produto-destaque");
+      detalhes.appendChild(criarElemento("p", "", `Custo por unidade: ${dinheiro(produto.custo)}`));
+      detalhes.appendChild(criarElemento("p", "", `Preço de venda: ${dinheiro(produto.preco)}`));
+      detalhes.appendChild(criarElemento("p", "", `Estoque: ${produto.estoque} unidade(s)`));
+
+      const diferenca = produto.preco - produto.custo;
+      detalhes.appendChild(
+        criarElemento("p", "", `Diferença por unidade: ${dinheiro(diferenca)}`)
+      );
+
+      cartao.appendChild(detalhes);
+
+      const acoes = criarElemento("div", "produto-acoes");
+
+      const editar = criarElemento("button", "", "Editar");
+      editar.type = "button";
+      editar.addEventListener("click", () => editarProduto(produto.id));
+
+      const excluir = criarElemento("button", "", "Excluir");
+      excluir.type = "button";
+      excluir.addEventListener("click", () => excluirProduto(produto.id));
+
+      acoes.append(editar, excluir);
+      cartao.appendChild(acoes);
+      lista.appendChild(cartao);
+    });
+  }
+
+  function editarProduto(id) {
+    const produto = produtos.find(item => item.id === id);
+    if (!produto) return;
+
+    campo("produtoId").value = produto.id;
+    campo("nomeProduto").value = produto.nome;
+    campo("categoriaProduto").value = produto.categoria;
+    campo("descricaoProduto").value = produto.descricao;
+    campo("custoProduto").value = produto.custo;
+    campo("precoProduto").value = produto.preco;
+    campo("estoqueProduto").value = produto.estoque;
+
+    titulo.textContent = "Editar produto";
+    botaoSalvar.textContent = "Salvar alterações";
+    botaoCancelar.hidden = false;
+
+    formulario.scrollIntoView({ behavior: "smooth", block: "start" });
+    campo("nomeProduto").focus();
+  }
+
+  function excluirProduto(id) {
+    const produto = produtos.find(item => item.id === id);
+    if (!produto) return;
+
+    if (!confirm(`Deseja excluir "${produto.nome}" do seu catálogo?`)) {
+      return;
+    }
+
+    produtos = produtos.filter(item => item.id !== id);
+    salvar();
+    renderizar();
+
+    if (campo("produtoId").value === id) {
+      limparFormulario();
+    }
+  }
+
+  formulario.addEventListener("submit", function (evento) {
+    evento.preventDefault();
+
+    const nome = campo("nomeProduto").value.trim();
+    const categoria = campo("categoriaProduto").value;
+    const descricao = campo("descricaoProduto").value.trim();
+    const custo = Number(campo("custoProduto").value);
+    const preco = Number(campo("precoProduto").value);
+    const estoqueTexto = campo("estoqueProduto").value;
+    const estoque = Number(estoqueTexto);
+    const idAtual = campo("produtoId").value;
+
+    if (
+      !nome ||
+      !categoria ||
+      campo("custoProduto").value === "" ||
+      campo("precoProduto").value === "" ||
+      estoqueTexto === "" ||
+      !Number.isFinite(custo) ||
+      !Number.isFinite(preco) ||
+      !Number.isInteger(estoque) ||
+      custo < 0 ||
+      preco < 0 ||
+      estoque < 0
+    ) {
+      alert("Confira os campos. Os valores não podem ser negativos e o estoque deve ser um número inteiro igual ou maior que zero.");
+      return;
+    }
+
+    const produto = {
+      id: idAtual || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+      nome,
+      categoria,
+      descricao,
+      custo,
+      preco,
+      estoque
+    };
+
+    if (idAtual) {
+      produtos = produtos.map(item => item.id === idAtual ? produto : item);
+    } else {
+      produtos.push(produto);
+    }
+
+    try {
+      salvar();
+    } catch (erro) {
+      alert("Não foi possível salvar os produtos neste navegador. Verifique o espaço disponível.");
+      return;
+    }
+
+    limparFormulario();
+    renderizar();
+    alert("Produto salvo com sucesso! 💗");
+  });
+
+  botaoCancelar.addEventListener("click", limparFormulario);
+
+  renderizar();
+})();
+</script>
+</body
 </html>
-```
