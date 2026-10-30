@@ -372,9 +372,282 @@ x```html
         padding: 28px 5%;
       }
     }
+    ```css
+/* CONTROLE FINANCEIRO - PRISMA ESSENZA */
+.controle-financeiro {
+    padding: 80px 20px;
+    background: #f8f4ed;
+    color: #493d35;
+}
+
+.financeiro-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.controle-financeiro .etiqueta {
+    display: block;
+    margin-bottom: 12px;
+    color: #8b7565;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.controle-financeiro h2 {
+    margin-bottom: 15px;
+    color: #493d35;
+    font-size: clamp(30px, 4vw, 42px);
+    text-align: center;
+}
+
+.financeiro-intro {
+    max-width: 600px;
+    margin: 0 auto 35px;
+    color: #75685f;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.financeiro-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 35px;
+}
+
+.financeiro-card {
+    padding: 25px 20px;
+    border: 1px solid #e8dfd3;
+    border-radius: 18px;
+    background: #fffdf9;
+    box-shadow: 0 5px 18px rgba(73, 61, 53, 0.05);
+}
+
+.financeiro-card span {
+    display: block;
+    margin-bottom: 12px;
+    color: #75685f;
+    font-size: 14px;
+}
+
+.financeiro-card strong {
+    font-size: clamp(19px, 3vw, 27px);
+    overflow-wrap: anywhere;
+}
+
+.financeiro-card.entradas {
+    border-top: 4px solid #8ba58b;
+}
+
+.financeiro-card.saidas {
+    border-top: 4px solid #c88e82;
+}
+
+.financeiro-card.saldo {
+    border-top: 4px solid #c
   </style>
 </head>
+```html
+<script>
+(function () {
+    const chave = "prismaEssenzaMovimentacoes";
 
+    const tipoInput = document.getElementById("tipo-movimentacao");
+    const descricaoInput = document.getElementById("descricao-movimentacao");
+    const valorInput = document.getElementById("valor-movimentacao");
+    const dataInput = document.getElementById("data-movimentacao");
+    const botaoRegistrar = document.getElementById("btn-registrar-movimentacao");
+
+    const totalEntradas = document.getElementById("total-entradas");
+    const totalDespesas = document.getElementById("total-despesas");
+    const saldoAtual = document.getElementById("saldo-atual");
+    const mensagem = document.getElementById("mensagem-financeiro");
+    const lista = document.getElementById("lista-movimentacoes");
+
+    if (
+        !tipoInput || !descricaoInput || !valorInput ||
+        !dataInput || !botaoRegistrar || !totalEntradas ||
+        !totalDespesas || !saldoAtual || !mensagem || !lista
+    ) {
+        return;
+    }
+
+    let movimentacoes = carregarMovimentacoes();
+
+    function carregarMovimentacoes() {
+        try {
+            const dados = JSON.parse(localStorage.getItem(chave) || "[]");
+            return Array.isArray(dados) ? dados : [];
+        } catch (erro) {
+            return [];
+        }
+    }
+
+    function salvarMovimentacoes() {
+        try {
+            localStorage.setItem(chave, JSON.stringify(movimentacoes));
+        } catch (erro) {
+            alert("Não foi possível salvar os dados neste navegador.");
+        }
+    }
+
+    function formatarMoeda(valor) {
+        return valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+    }
+
+    function formatarData(data) {
+        if (!data) return "";
+        const partes = data.split("-");
+        return partes.length === 3
+            ? partes[2] + "/" + partes[1] + "/" + partes[0]
+            : data;
+    }
+
+    function atualizarResumo() {
+        const entradas = movimentacoes
+            .filter(item => item.tipo === "entrada")
+            .reduce((soma, item) => soma + item.valor, 0);
+
+        const despesas = movimentacoes
+            .filter(item => item.tipo === "despesa")
+            .reduce((soma, item) => soma + item.valor, 0);
+
+        totalEntradas.textContent = formatarMoeda(entradas);
+        totalDespesas.textContent = formatarMoeda(despesas);
+        saldoAtual.textContent = formatarMoeda(entradas - despesas);
+    }
+
+    function exibirMovimentacoes() {
+        lista.replaceChildren();
+        mensagem.hidden = movimentacoes.length > 0;
+
+        if (movimentacoes.length === 0) {
+            mensagem.textContent = "Suas movimentações aparecerão aqui.";
+            return;
+        }
+
+        const ordenadas = [...movimentacoes].sort((a, b) => {
+            return b.data.localeCompare(a.data) || b.id - a.id;
+        });
+
+        ordenadas.forEach(item => {
+            const cartao = document.createElement("div");
+            cartao.className = "movimentacao-item";
+
+            const informacoes = document.createElement("div");
+            informacoes.className = "movimentacao-info";
+
+            const descricao = document.createElement("strong");
+            descricao.textContent = item.descricao;
+
+            const detalhes = document.createElement("span");
+            detalhes.textContent =
+                (item.tipo === "entrada" ? "Entrada" : "Despesa") +
+                " • " + formatarData(item.data);
+
+            informacoes.appendChild(descricao);
+            informacoes.appendChild(detalhes);
+
+            const ladoDireito = document.createElement("div");
+
+            const valor = document.createElement("div");
+            valor.className = "movimentacao-valor " + item.tipo;
+            valor.textContent =
+                (item.tipo === "entrada" ? "+ " : "− ") +
+                formatarMoeda(item.valor);
+
+            const excluir = document.createElement("button");
+            excluir.type = "button";
+            excluir.className = "btn-excluir-movimentacao";
+            excluir.textContent = "Excluir";
+            excluir.setAttribute(
+                "aria-label",
+                "Excluir movimentação: " + item.descricao
+            );
+
+            excluir.addEventListener("click", function () {
+                const confirmar = confirm(
+                    'Deseja excluir a movimentação "' + item.descricao + '"?'
+                );
+
+                if (!confirmar) return;
+
+                movimentacoes = movimentacoes.filter(mov => mov.id !== item.id);
+                salvarMovimentacoes();
+                atualizarResumo();
+                exibirMovimentacoes();
+            });
+
+            ladoDireito.appendChild(valor);
+            ladoDireito.appendChild(excluir);
+
+            cartao.appendChild(informacoes);
+            cartao.appendChild(ladoDireito);
+            lista.appendChild(cartao);
+        });
+    }
+
+    botaoRegistrar.addEventListener("click", function () {
+        const tipo = tipoInput.value;
+        const descricao = descricaoInput.value.trim();
+        const valor = Number(valorInput.value);
+        const data = dataInput.value;
+
+        if (!descricao) {
+            alert("Digite uma descrição para a movimentação.");
+            descricaoInput.focus();
+            return;
+        }
+
+        if (!Number.isFinite(valor) || valor <= 0) {
+            alert("Informe um valor maior que zero.");
+            valorInput.focus();
+            return;
+        }
+
+        if (!data) {
+            alert("Selecione a data da movimentação.");
+            dataInput.focus();
+            return;
+        }
+
+        if (tipo !== "entrada" && tipo !== "despesa") {
+            alert("Selecione um tipo de movimentação válido.");
+            return;
+        }
+
+        movimentacoes.push({
+            id: Date.now() + Math.random(),
+            tipo: tipo,
+            descricao: descricao,
+            valor: Math.round(valor * 100) / 100,
+            data: data
+        });
+
+        salvarMovimentacoes();
+        atualizarResumo();
+        exibirMovimentacoes();
+
+        descricaoInput.value = "";
+        valorInput.value = "";
+        dataInput.value = new Date().toLocaleDateString("en-CA");
+        tipoInput.value = "entrada";
+
+        alert("Movimentação registrada com sucesso!");
+    });
+
+    dataInput.value = new Date().toLocaleDateString("en-CA");
+
+    atualizarResumo();
+    exibirMovimentacoes();
+})();
+</script>
+```
 <body>
   <header class="topo">
     <div class="logo">PRISMA <span>ESSENZA</span></div>
@@ -1203,6 +1476,76 @@ x```html
     }
   }
 </style>
+ ```html
+<section class="controle-financeiro" id="controle-financeiro">
+    <div class="financeiro-container">
+        <span class="etiqueta">ORGANIZE SEU NEGÓCIO</span>
+        <h2>Controle Financeiro</h2>
+        <p class="financeiro-intro">
+            Acompanhe o dinheiro que entra e sai do seu negócio
+            e tenha mais clareza para tomar suas decisões.
+        </p>
+
+        <div class="financeiro-resumo">
+            <div class="financeiro-card entradas">
+                <span>Total de entradas</span>
+                <strong id="total-entradas">R$ 0,00</strong>
+            </div>
+
+            <div class="financeiro-card saidas">
+                <span>Total de despesas</span>
+                <strong id="total-despesas">R$ 0,00</strong>
+            </div>
+
+            <div class="financeiro-card saldo">
+                <span>Saldo atual</span>
+                <strong id="saldo-atual">R$ 0,00</strong>
+            </div>
+        </div>
+
+        <div class="financeiro-formulario">
+            <h3>Registrar movimentação</h3>
+
+            <label for="tipo-movimentacao">Tipo de movimentação</label>
+            <select id="tipo-movimentacao">
+                <option value="entrada">Entrada de dinheiro</option>
+                <option value="despesa">Saída de dinheiro / Despesa</option>
+            </select>
+
+            <label for="descricao-movimentacao">Descrição</label>
+            <input
+                type="text"
+                id="descricao-movimentacao"
+                placeholder="Ex.: venda de brigadeiros ou compra de embalagens"
+            >
+
+            <label for="valor-movimentacao">Valor (R$)</label>
+            <input
+                type="number"
+                id="valor-movimentacao"
+                placeholder="Ex.: 50,00"
+                min="0.01"
+                step="0.01"
+            >
+
+            <label for="data-movimentacao">Data</label>
+            <input type="date" id="data-movimentacao">
+
+            <button type="button" id="btn-registrar-movimentacao">
+                Registrar movimentação
+            </button>
+        </div>
+
+        <div class="financeiro-historico">
+            <h3>Histórico financeiro</h3>
+            <p id="mensagem-financeiro">
+                Suas movimentações aparecerão aqui.
+            </p>
+            <div id="lista-movimentacoes"></div>
+        </div>
+    </div>
+</section>
+```
     <section class="frase">
       <h2>Pequenos negócios também merecem grandes oportunidades.</h2>
       <p>Conhecimento, organização e criatividade para crescer com mais confiança.</p>
