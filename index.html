@@ -636,6 +636,320 @@ x```html
   });
 </script>
 ```
+   <section class="secao" id="studio-marca">
+  <div class="cabecalho-secao">
+    <span class="etiqueta">Sua identidade, suas ideias</span>
+    <h2>Studio de Marca</h2>
+    <p>Crie uma identidade visual para o seu negócio de forma gratuita, simples e personalizada.</p>
+  </div>
+
+  <div class="cartao studio-cartao">
+    <div class="studio-formulario">
+      <label for="nomeMarca">Nome da sua marca</label>
+      <input type="text" id="nomeMarca" maxlength="45" placeholder="Ex.: Doces da Bel">
+
+      <label for="sloganMarca">Slogan da sua marca</label>
+      <input type="text" id="sloganMarca" maxlength="80" placeholder="Ex.: Feito com amor em cada detalhe">
+
+      <label for="corFundo">Cor de fundo</label>
+      <input type="color" id="corFundo" value="#F7F0E8">
+
+      <label for="corTexto">Cor do texto</label>
+      <input type="color" id="corTexto" value="#594638">
+
+      <label for="fonteMarca">Estilo da fonte</label>
+      <select id="fonteMarca">
+        <option value="Georgia, serif">Elegante</option>
+        <option value="Arial, sans-serif">Moderna</option>
+        <option value="'Trebuchet MS', sans-serif">Delicada</option>
+        <option value="cursive">Manuscrita</option>
+      </select>
+
+      <label for="simboloMarca">Elemento decorativo</label>
+      <select id="simboloMarca">
+        <option value="✿">Flor</option>
+        <option value="♡">Coração</option>
+        <option value="✦">Estrela</option>
+        <option value="❀">Flor delicada</option>
+        <option value="◇">Losango</option>
+        <option value="☼">Sol</option>
+        <option value="">Sem símbolo</option>
+      </select>
+
+      <button type="button" class="botao botao-principal" id="atualizarMarca">
+        Atualizar minha marca
+      </button>
+
+      <button type="button" class="botao" id="baixarMarca">
+        Baixar minha marca em PNG
+      </button>
+    </div>
+
+    <div class="studio-previa">
+      <p class="studio-titulo-previa">Prévia da sua identidade visual</p>
+
+      <div id="arteMarca" class="arte-marca">
+        <span id="simboloPrevia" class="simbolo-marca">✿</span>
+        <h3 id="nomePrevia">Nome da sua marca</h3>
+        <p id="sloganPrevia">Seu slogan aparecerá aqui</p>
+        <span class="linha-decorativa"></span>
+        <small>FEITO COM ESSÊNCIA</small>
+      </div>
+
+      <p class="studio-ajuda">
+        Personalize os campos e veja sua marca ganhar vida. Quando gostar do resultado,
+        você poderá baixar a arte para usar nas redes sociais.
+      </p>
+    </div>
+  </div>
+<style>
+  .studio-cartao {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    align-items: start;
+  }
+
+  .studio-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .studio-formulario label {
+    margin-top: 8px;
+    font-weight: bold;
+    color: var(--marrom);
+  }
+
+  .studio-formulario input:not([type="color"]),
+  .studio-formulario select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: var(--creme);
+    color: var(--marrom);
+    font: inherit;
+  }
+
+  .studio-formulario input[type="color"] {
+    width: 100%;
+    height: 45px;
+    padding: 4px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: var(--creme);
+    cursor: pointer;
+  }
+
+  .studio-formulario button {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .studio-previa {
+    min-width: 0;
+    text-align: center;
+  }
+
+  .studio-titulo-previa {
+    margin-bottom: 18px;
+    font-weight: bold;
+    color: var(--marrom);
+  }
+
+  .arte-marca {
+    min-height: 300px;
+    padding: 35px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(60, 45, 35, 0.08);
+    overflow-wrap: anywhere;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .simbolo-marca {
+    font-size: 48px;
+    margin-bottom: 15px;
+  }
+
+  .arte-marca h3 {
+    font-size: clamp(22px, 4vw, 32px);
+    margin: 0 0 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .arte-marca p {
+    margin: 0 0 20px;
+    line-height: 1.6;
+  }
+
+  .linha-decorativa {
+    display: block;
+    width: 65px;
+    height: 2px;
+    background: currentColor;
+    margin-bottom: 18px;
+    opacity: 0.65;
+  }
+
+  .arte-marca small {
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+
+  .studio-ajuda {
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--marrom);
+  }
+
+  @media (max-width: 700px) {
+    .studio-cartao {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .arte-marca {
+      min-height: 260px;
+    }
+  }
+</style>
+   </section>
+   <script>
+(function () {
+  const nomeMarca = document.getElementById("nomeMarca");
+  const sloganMarca = document.getElementById("sloganMarca");
+  const corFundo = document.getElementById("corFundo");
+  const corTexto = document.getElementById("corTexto");
+  const fonteMarca = document.getElementById("fonteMarca");
+  const simboloMarca = document.getElementById("simboloMarca");
+
+  const arte = document.getElementById("arteMarca");
+  const nomePrevia = document.getElementById("nomePrevia");
+  const sloganPrevia = document.getElementById("sloganPrevia");
+  const simboloPrevia = document.getElementById("simboloPrevia");
+
+  const atualizarMarca = document.getElementById("atualizarMarca");
+  const baixarMarca = document.getElementById("baixarMarca");
+
+  function atualizarPrevia() {
+    nomePrevia.textContent =
+      nomeMarca.value.trim() || "Nome da sua marca";
+
+    sloganPrevia.textContent =
+      sloganMarca.value.trim() || "Seu slogan aparecerá aqui";
+
+    simboloPrevia.textContent = simboloMarca.value;
+
+    arte.style.backgroundColor = corFundo.value;
+    arte.style.color = corTexto.value;
+    arte.style.fontFamily = fonteMarca.value;
+  }
+
+  [
+    nomeMarca,
+    sloganMarca,
+    corFundo,
+    corTexto,
+    fonteMarca,
+    simboloMarca
+  ].forEach(function (campo) {
+    campo.addEventListener("input", atualizarPrevia);
+    campo.addEventListener("change", atualizarPrevia);
+  });
+
+  atualizarMarca.addEventListener("click", function () {
+    atualizarPrevia();
+    alert("Sua identidade visual foi atualizada! 💗");
+  });
+
+  baixarMarca.addEventListener("click", function () {
+    atualizarPrevia();
+
+    const largura = 1000;
+    const altura = 700;
+    const canvas = document.createElement("canvas");
+    const contexto = canvas.getContext("2d");
+
+    canvas.width = largura;
+    canvas.height = altura;
+
+    contexto.fillStyle = corFundo.value;
+    contexto.fillRect(0, 0, largura, altura);
+
+    contexto.fillStyle = corTexto.value;
+    contexto.textAlign = "center";
+    contexto.textBaseline = "middle";
+
+    const fonte = fonteMarca.value;
+    const nome = nomeMarca.value.trim() || "Nome da sua marca";
+    const slogan = sloganMarca.value.trim() || "Seu slogan aparecerá aqui";
+    const simbolo = simboloMarca.value;
+
+    contexto.font = "56px " + fonte;
+    contexto.fillText(simbolo, largura / 2, 190);
+
+    let tamanhoFonte = 64;
+
+    contexto.font = "bold " + tamanhoFonte + "px " + fonte;
+
+    while (
+      contexto.measureText(nome).width > largura - 100 &&
+      tamanhoFonte > 24
+    ) {
+      tamanhoFonte -= 2;
+      contexto.font = "bold " + tamanhoFonte + "px " + fonte;
+    }
+
+    contexto.fillText(nome, largura / 2, 310);
+
+    contexto.font = "30px " + fonte;
+
+    const palavras = slogan.split(/\s+/);
+    const linhas = [];
+    let linha = "";
+
+    palavras.forEach(function (palavra) {
+      const teste = linha ? linha + " " + palavra : palavra;
+
+      if (contexto.measureText(teste).width > largura - 140 && linha) {
+        linhas.push(linha);
+        linha = palavra;
+      } else {
+        linha = teste;
+      }
+    });
+
+    if (linha) linhas.push(linha);
+
+    linhas.slice(0, 3).forEach(function (texto, indice) {
+      contexto.fillText(texto, largura / 2, 390 + indice * 42);
+    });
+
+    contexto.globalAlpha = 0.65;
+    contexto.fillRect(largura / 2 - 55, 500, 110, 2);
+    contexto.globalAlpha = 1;
+
+    contexto.font = "18px Arial, sans-serif";
+    contexto.fillText("FEITO COM ESSÊNCIA", largura / 2, 545);
+
+    const link = document.createElement("a");
+    link.download = "minha-marca-prisma-essenza.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  });
+
+  atualizarPrevia();
+})();
+</script>
     <section class="frase">
       <h2>Pequenos negócios também merecem grandes oportunidades.</h2>
       <p>Conhecimento, organização e criatividade para crescer com mais confiança.</p>
